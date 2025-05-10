@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tanine.ttaettaelo.mapper.MemberMapper">
+	<select id="countLoginId" resultType="int">
+		SELECT <!-- 중복 아이디 확인 -->
+			count(login_id) 	AS 로그인아이디수
+		FROM
+			member
+		WHERE 
+			login_id = #{loginId}
+	</select>
+	
+	<insert id="saveMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
+		INSERT INTO member <!-- 회원 저장 -->
+			  (login_id,
+			   password,
+			   name,
+			   email,
+			   gender,
+			   address)
+		VALUES
+			(#{loginId},
+			 #{password},
+			 #{name},
+			 #{email},
+			 #{gender},
+			 #{address})
+	</insert>
+	
+	<select id="getMemberById" parameterType="Long" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
+		SELECT <!-- 중복 아이디 확인 -->
+			member_id 	AS memberId,
+			name 		AS name
+		FROM
+			member
+		WHERE 
+			member_id = #{memberId}
+	</select>
+</mapper>

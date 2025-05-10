@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoMapper">
+	<select id="getAllBathhouseInfo" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO"> 
+		SELECT <!-- 목욕탕 정보글 조회 -->
+			bathhouse_info_id	AS bathhouseInfoId,
+			name 				AS name,
+			type 				AS type,
+			location 			AS location,
+			img_url				AS imgUrl
+			<!-- 평점 평균, 리뷰 수 좋아요 수 추가하기 -->
+		FROM bathhouse_info
+		ORDER BY bathhouse_info_id DESC
+	</select>
+	
+	<select id="getInfoDetailed" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
+		SELECT <!-- 목욕탕 정보상세글 조회 -->
+			bathhouse_info_id 	AS bathhouseInfoId,
+			name 				AS name,
+			introduction 		AS introduction,
+			type 				AS type,
+			location 			AS location,
+			start_time 			AS startTime,
+			end_time 			AS endTime,
+			closed_day 			AS closedDay,
+			contact_number 		AS contactNumber,
+			img_url 			AS imgUrl
+		<!-- r.review_id,
+			r.content,
+			r.rating,
+			r.created_at,
+			r.updated_at,
+			m.name,
+			COUNT(l.bathhouse_info_id) AS bathhouseInfoLikeCount -->
+		FROM bathhouse_info
+		<!-- LEFT JOIN review r ON b.bathhouse_info_id = r.bathhouse_info_id
+		LEFT JOIN member m ON r.member_id = m.member_id
+		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id -->
+		WHERE bathhouse_info_id = #{bathhouseInfoId}
+		<!-- GROUP BY b.bathhouse_info_id -->
+	</select>
+	
+	<select id="getTagByBAthhouseInfoId" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
+		SELECT <!-- 목욕탕 게시글의 아이디(번호)에 해당하는 태그 가져오기 -->
+			b.bathhouse_info_id 	AS bathhouseInfoId,
+			t.tag_id 				AS tagId,
+			t.tag_name 				AS tagName
+		FROM bathhouse_tag t
+		INNER JOIN info_tag_mapping m ON t.tag_id = m.tag_id
+		INNER JOIN bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
+		WHERE b.bathhouse_info_id = #{bathhouseInfoId}
+	</select>
+</mapper>

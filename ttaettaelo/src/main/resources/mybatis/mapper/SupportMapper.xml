@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tanine.ttaettaelo.mapper.SupportMapper">
+	<resultMap id="SupportWithAnswer" type="com.tanine.ttaettaelo.dto.SupportDTO">
+	    <id property="supportId" column="supportId"/>
+	    <result property="title" column="title"/>
+	    <result property="content" column="content"/>
+	    <result property="status" column="status"/>
+	    <result property="createdAt" column="createdAt"/>
+	    
+	    <association property="member" javaType="com.tanine.ttaettaelo.dto.MemberDTO">
+	        <id property="memberId" column="memberId"/>
+	        <result property="name" column="name"/>
+	    </association>
+	
+	    <association property="answer" javaType="com.tanine.ttaettaelo.dto.SupportAnswerDTO">
+	        <id property="answerId" column="answerId"/>
+	        <result property="supportId" column="answerSupportId"/>
+	        <result property="content" column="answerContent"/>
+	        <result property="createdAt" column="answerCreatedAt"/>
+	    </association>
+	</resultMap>
+	
+	<select id="getAllSupportWithAnswer" resultMap="SupportWithAnswer">
+		SELECT
+			s.support_id 	AS supportId,
+			s.title 		AS title,
+			s.content 		AS content,
+			s.status 		AS status,
+			s.created_at 	AS createdAt,
+			m.member_id 	AS memberId,
+			m.name 			AS name,
+			a.answer_id 	AS answerId,
+			a.support_id 	AS answerSupportId,
+			a.content 		AS answerContent,
+			a.created_at	AS answerCreatedAt
+		FROM support s
+		INNER JOIN member m ON s.member_id = m.member_id
+		LEFT JOIN support_answer a ON s.support_id = a.support_id
+		ORDER BY s.support_id DESC
+	</select>
+
+	<select id="getSupportById" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
+		SELECT
+			s.support_id 	AS supportId,
+			s.title 		AS title,
+			s.content 		AS content,
+			s.status 		AS status,
+			s.created_at 	AS createdAt,
+			m.name 			AS name,
+			a.answer_id 	AS answerId,
+			a.content 		AS answerContent,
+			a.created_at 	AS answerCreatedAt
+		FROM support s
+		INNER JOIN member m ON s.member_id = m.member_id
+		LEFT JOIN support_answer a ON s.support_id = a.support_id
+		WHERE s.support_id = #{supportId}
+	</select>
+		
+	<insert id="insertSupport" parameterType="com.tanine.ttaettaelo.dto.SupportDTO">
+        INSERT INTO support <!-- 문의하기 등록-->
+        	(member_id, 
+        	 title, 
+        	 content)
+        VALUES
+        	(#{memberId},
+        	 #{title}, 
+        	 #{content})
+    </insert>
+    
+    <update id="updateStatus">
+        UPDATE support <!-- 답변 상태 업데이트 -->
+        SET status = #{status}
+        WHERE support_id = #{supportId}
+    </update>
+</mapper>
