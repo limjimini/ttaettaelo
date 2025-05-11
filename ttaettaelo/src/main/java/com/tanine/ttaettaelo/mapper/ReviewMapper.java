@@ -12,4 +12,8 @@ public interface ReviewMapper {
 	void insertReview(ReviewDTO reviewDto); // 리뷰 등록
 	
 	List<ReviewDTO> getReviewsByBathhouseInfoId(Long bathhouseInfoId); // 리뷰 조회
+	
+	void updateReview(ReviewDTO reviewDto);
+	
+	void deleteReview(Long reviewId);
 }

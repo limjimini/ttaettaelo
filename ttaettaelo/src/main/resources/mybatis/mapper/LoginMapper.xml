@@ -9,8 +9,10 @@
 			login_id 	AS loginId,
 			password 	AS password,
 			name 		AS name,
-			<!-- email, -->
-			role
+			email 		AS email,
+			gender 		AS gender,
+			address 	AS address,
+			role 		AS role
 		FROM
 			member
 		WHERE

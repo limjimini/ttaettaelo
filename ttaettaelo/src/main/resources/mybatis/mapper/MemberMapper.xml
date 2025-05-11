@@ -32,7 +32,11 @@
 	<select id="getMemberById" parameterType="Long" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
 		SELECT <!-- 중복 아이디 확인 -->
 			member_id 	AS memberId,
-			name 		AS name
+			name 		AS name,
+			login_id 	AS loginId,
+			email 		AS email,
+			address 	AS address,
+			gender 		AS gender
 		FROM
 			member
 		WHERE 

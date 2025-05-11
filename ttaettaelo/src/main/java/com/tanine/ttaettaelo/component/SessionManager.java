@@ -35,8 +35,13 @@ public class SessionManager {
 		Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
 		cookie.setMaxAge(60 * 60); // 1시간동안 유효
 		cookie.setHttpOnly(true);
-		cookie.setSecure(true); // HTTPS 연결에서만 전송
+		cookie.setSecure(false);
+		cookie.setPath("/");
 		response.addCookie(cookie);
+		
+	    response.setHeader("Set-Cookie",
+	            String.format("%s=%s; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=None",
+	                          SESSION_COOKIE_NAME, sessionId));
 	}
 	
 	/**
@@ -57,7 +62,8 @@ public class SessionManager {
 	        return null;
 	    }
 		
-		return sessionStore.get(cookie.getValue());
+//		return sessionStore.get(cookie.getValue());
+	    return sessionStore.get(sessionId);
 	}
 	
 	/**
@@ -70,8 +76,8 @@ public class SessionManager {
 			cookie.setMaxAge(0); // 쿠키 만료
 //			cookie.setPath("/"); // 쿠키 경로 설정(기본값 /)
 			sessionStore.remove(cookie.getValue()); // 삭제
+			sessionStore.remove(cookie.getValue() + "_timestamp");
 		}
-		sessionStore.clear(); // 세션 저장소 비우기
 	}
 	
 	/**

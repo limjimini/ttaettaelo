@@ -18,10 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.tanine.ttaettaelo.component.SessionManager;
+import com.tanine.ttaettaelo.dto.LoginDTO;
 import com.tanine.ttaettaelo.dto.MemberDTO;
 import com.tanine.ttaettaelo.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	
 	private final MemberService memberService;
+	private final SessionManager sessionManager;
 	
 	// 로그인 중복 아이디 확인
 	@GetMapping("/checkLoginId")
@@ -61,5 +67,17 @@ public class MemberController {
 		    e.printStackTrace();
 		    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
+	}
+	
+	@PostMapping("/mypage")
+	public ResponseEntity<MemberDTO> getMypage(HttpServletRequest request) {
+	    LoginDTO loginMember = (LoginDTO) sessionManager.getSession(request);
+	    if (loginMember == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 로그인 안됨
+	    }
+
+	    MemberDTO memberDto = memberService.getMemberById(loginMember.getMemberId());
+
+	    return ResponseEntity.ok(memberDto);
 	}
 }

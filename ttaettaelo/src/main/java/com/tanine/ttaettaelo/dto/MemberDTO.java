@@ -43,7 +43,7 @@ public class MemberDTO {
 	private String email;
 	
 	@NotNull(message = "3개 중에 선택해주세요.")
-	private Gender gender;
+	private String gender;
 	
 	private String address;	
 	

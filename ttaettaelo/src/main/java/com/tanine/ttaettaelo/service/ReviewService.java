@@ -24,4 +24,12 @@ public class ReviewService {
 	public List<ReviewDTO> getReviewsByBathhouseId(Long bathhouseInfoId) {
 		return reviewMapper.getReviewsByBathhouseInfoId(bathhouseInfoId);
 	}
+	
+	public void updateReview(ReviewDTO reviewDto) {
+		reviewMapper.updateReview(reviewDto);
+	}
+	
+	public void deleteReview(Long reviewId) {
+		reviewMapper.deleteReview(reviewId);
+	}
 }

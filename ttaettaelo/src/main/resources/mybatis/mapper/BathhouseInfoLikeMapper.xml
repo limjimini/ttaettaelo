@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoLikeMapper">
+	<insert id="insertLike">
+		INSERT INTO bathhouse_info_like
+			(bathhouse_info_id,
+			 member_id)
+		VALUES
+			(#{bathhouseInfoId},
+			 #{memberId})
+	</insert>
+	
+	<delete id="deleteLike">
+		DELETE FROM bathhouse_info_like
+		WHERE bathhouse_info_id =#{bathhouseInfoId}
+		AND   member_id = #{memberId}
+	</delete>
+	
+	<select id="isLiked" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM bathhouse_info_like
+		WHERE bathhouse_info_id =#{bathhouseInfoId}
+		AND   member_id = #{memberId}
+	</select>
+	
+	<select id="countLikes" resultType="int">
+		SELECT COUNT(*)
+		FROM bathhouse_info_like
+		WHERE bathhouse_info_id = #{bathhouseInfoId}
+	</select>
+</mapper>

@@ -11,8 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-public class BathhouseInfoLikeDTO {
+public class ReviewLikeDTO {
 
-	private Long bathhouseInfoId;
-	private Long memberId;
+	private long reviewId;
+	private long memberId;
 }

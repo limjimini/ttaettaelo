@@ -57,4 +57,9 @@ public class MemberService {
         MemberDTO member = memberMapper.getMemberById(memberId);
         return member != null ? member.getName() : "익명";  // 사용자 이름 리턴
     }
+	
+	public MemberDTO getMemberById(Long memberId) {
+		MemberDTO member = memberMapper.getMemberById(memberId);
+		return member;
+	}
 }
