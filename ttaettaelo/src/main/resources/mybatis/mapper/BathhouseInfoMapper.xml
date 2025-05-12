@@ -3,16 +3,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoMapper">
-	<select id="getAllBathhouseInfo" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO"> 
+	<resultMap id="bathhouseInfoMap" type="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
+	    <id property="bathhouseInfoId" column="bathhouseInfoId" />
+	    <result property="name" column="name" />
+	    <result property="type" column="type" />
+	    <result property="location" column="location" />
+	    <result property="imgUrl" column="imgUrl" />
+	    
+	    <collection property="tagKeyword" ofType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
+	        <result property="tagName" column="tagName"/>
+	    </collection>
+	</resultMap>
+
+	<select id="getAllBathhouseInfo" resultMap="bathhouseInfoMap"> 
 		SELECT <!-- 목욕탕 정보글 조회 -->
-			bathhouse_info_id	AS bathhouseInfoId,
-			name 				AS name,
-			type 				AS type,
-			location 			AS location,
-			img_url				AS imgUrl
+			b.bathhouse_info_id	AS bathhouseInfoId,
+			b.name 				AS name,
+			b.type 				AS type,
+			b.location 			AS location,
+			b.img_url			AS imgUrl,
+			t.tag_name			AS tagName
 			<!-- 평점 평균, 리뷰 수 좋아요 수 추가하기 -->
-		FROM bathhouse_info
-		ORDER BY bathhouse_info_id DESC
+		FROM bathhouse_info b
+		INNER JOIN info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
+		INNER JOIN bathhouse_tag t ON m.tag_id = t.tag_id
+		ORDER BY b.bathhouse_info_id DESC
 	</select>
 	
 	<select id="getInfoDetailed" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">

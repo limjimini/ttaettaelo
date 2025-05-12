@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tanine.ttaettaelo.dto.BathhouseInfoDTO;
-import com.tanine.ttaettaelo.dto.BathhouseTagDTO;
+import com.tanine.ttaettaelo.dto.BathhouseTagsForDetailedDTO;
 import com.tanine.ttaettaelo.mapper.BathhouseInfoMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class BathhouseInfoService {
 	public BathhouseInfoDTO getInfoDetailed(@PathVariable Long bathhouseInfoId) {
 		BathhouseInfoDTO bathhouse = bathhouseInfoMapper.getInfoDetailed(bathhouseInfoId);
 		
-		List<BathhouseTagDTO> tags = bathhouseInfoMapper.getTagByBAthhouseInfoId(bathhouseInfoId);
+		List<BathhouseTagsForDetailedDTO> tags = bathhouseInfoMapper.getTagByBAthhouseInfoId(bathhouseInfoId);
 		bathhouse.setTags(tags);
 		return bathhouse;
 	}

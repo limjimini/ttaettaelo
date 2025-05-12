@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,14 +71,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/mypage")
-	public ResponseEntity<MemberDTO> getMypage(HttpServletRequest request) {
-	    LoginDTO loginMember = (LoginDTO) sessionManager.getSession(request);
-	    if (loginMember == null) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 로그인 안됨
-	    }
-
-	    MemberDTO memberDto = memberService.getMemberById(loginMember.getMemberId());
-
+	public ResponseEntity<MemberDTO> getMypage(@RequestBody Map<String, Object> payload) {
+	    Long memberId = Long.parseLong(payload.get("memberId").toString());
+	    MemberDTO memberDto = memberService.getMemberById(memberId);
 	    return ResponseEntity.ok(memberDto);
 	}
 }
