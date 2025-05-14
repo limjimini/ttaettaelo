@@ -128,21 +128,20 @@ public class MemberController {
 //	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류: " + e.getMessage());
 //	    }
 //	}
-//	
-//	@PostMapping("/updateMember")
-//    public ResponseEntity<String> updateMember(@RequestBody MemberUpdatedDTO memberUpdatedDto) {
-//        try {
-//            if (memberUpdatedDto.getMemberId() == null) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("회원 ID가 없습니다.");
-//            }
-//            
-//            memberService.updateMember(memberUpdatedDto);
-//            return ResponseEntity.ok("정보가 성공적으로 업데이트되었습니다!");
-//        } catch (Exception e) {
-//        	e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("정보 업데이트에 실패했습니다!");
-//        }
-//    }
+
+	@PutMapping("/updateMember")
+    public ResponseEntity<Map<String, Object>> updateMember(@RequestBody MemberDTO memberDto) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+        	MemberDTO updatedMember = memberService.updateMember(memberDto);
+            response.put("success", true);
+            response.put("user", updatedMember);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "정보 업데이트에 실패했습니다!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 }

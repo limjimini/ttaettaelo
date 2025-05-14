@@ -30,7 +30,7 @@
 	</insert>
 	
 	<select id="getMemberById" parameterType="Long" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
-		SELECT <!-- 중복 아이디 확인 -->
+		SELECT <!-- 회원 아이디로 회원 정보 얻기 -->
 			member_id 	AS memberId,
 			name 		AS name,
 			login_id 	AS loginId,
@@ -57,7 +57,6 @@
 		SELECT
 			member_id 		AS memberId,
 			login_id 		AS loginId,
-			password 		AS password,
 			email 			AS email,
 			name 			AS name,
 			gender 			AS gender,
@@ -76,13 +75,15 @@
 		WHERE login_id = #{loginId}
 	</update>
 	
-<!--  	<update id="updateMember" parameterType="com.tanine.ttaettaelo.dto.MemberUpdatedDTO">
-		UPDATE member
-		SET password = #{password},
+  	<update id="updateMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
+		UPDATE
+			member
+		SET
 			name = #{name},
 			email = #{email},
 			gender = #{gender},
-			address = #{address}
-		WHERE member_id = #{memberId}
-	</update> -->
+			address = COALESCE(#{address}, address)
+		WHERE 
+			member_id = #{memberId}
+	</update>
 </mapper>

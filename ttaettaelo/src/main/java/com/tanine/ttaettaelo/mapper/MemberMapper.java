@@ -20,7 +20,7 @@ public interface MemberMapper {
 	
 	MemberDTO getMemberById(Long memberId);
 	
-//	void updateMember(MemberUpdatedDTO memberUpdatedDto);
+	int updateMember(MemberDTO memberDto);
 	
 	MemberDTO getMemberByLoginIdEmail(@Param("loginId") String loginId, @Param("email") String email);
 	

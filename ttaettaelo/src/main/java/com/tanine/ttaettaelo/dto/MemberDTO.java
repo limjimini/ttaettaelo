@@ -2,6 +2,7 @@ package com.tanine.ttaettaelo.dto;
 
 import com.tanine.ttaettaelo.enums.Gender;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +46,7 @@ public class MemberDTO {
 	@NotNull(message = "3개 중에 선택해주세요.")
 	private String gender;
 	
+	@Nullable
 	private String address;	
 	
 	public boolean isPasswordChecked() {

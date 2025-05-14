@@ -1,5 +1,6 @@
 package com.tanine.ttaettaelo.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -104,8 +105,17 @@ public class MemberService {
 //		MemberDTO member = memberMapper.getMemberById(memberId);
 //		return member;
 //	}
-//	
-//	public void updateMember(MemberUpdatedDTO memberUpdatedDto) {
-//		memberMapper.updateMember(memberUpdatedDto);
-//	}
+	
+	public MemberDTO updateMember(MemberDTO memberDto) throws SQLException {
+		try {
+			int result = memberMapper.updateMember(memberDto);
+			if(result == 1) {
+				return memberMapper.getMemberById(memberDto.getMemberId());
+			} else {
+				throw new RuntimeException("사용자 정보 업데이트 실패");
+			}			
+		} catch (Exception e) {
+		    throw new RuntimeException("SQL 오류 발생: " + e.getMessage());
+		}
+	}
 }
