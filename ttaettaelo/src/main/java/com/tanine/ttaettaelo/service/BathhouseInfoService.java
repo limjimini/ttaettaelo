@@ -30,4 +30,12 @@ public class BathhouseInfoService {
 		bathhouse.setTags(tags);
 		return bathhouse;
 	}
+	
+	public List<BathhouseInfoDTO> getLikedBathhouse(Long memberId) {
+		return bathhouseInfoMapper.getLikedBathhouse(memberId);
+	}
+	
+	public List<String> getRandomImages() {
+		return bathhouseInfoMapper.getRandomImages();
+	}
 }

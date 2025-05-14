@@ -15,4 +15,8 @@ public interface BathhouseInfoMapper {
 	BathhouseInfoDTO getInfoDetailed(Long bathhouseInfoId); // 목욕탕 정보상세글 조회
 	
 	List<BathhouseTagsForDetailedDTO> getTagByBAthhouseInfoId(Long bathhouseInfoId); // 목욕탕 정보상세글 태그 가져오기
+	
+	List<BathhouseInfoDTO> getLikedBathhouse(Long memberId);
+	
+	List<String> getRandomImages();
 }

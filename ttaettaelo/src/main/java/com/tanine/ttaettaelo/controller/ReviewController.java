@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tanine.ttaettaelo.dto.BathhouseInfoDTO;
 import com.tanine.ttaettaelo.dto.ReviewDTO;
 import com.tanine.ttaettaelo.service.ReviewService;
 
@@ -51,5 +53,11 @@ public class ReviewController {
     public ResponseEntity<?> deleteReview(@PathVariable(name = "reviewId") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok("리뷰 삭제 성공");
+    }
+    
+    @GetMapping("/myReviews")
+	public ResponseEntity<List<ReviewDTO>> getMyReviews(@RequestParam("memberId") Long memberId) {
+        List<ReviewDTO> myReviews = reviewService.getMyReviews(memberId);
+        return ResponseEntity.ok(myReviews);
     }
 }

@@ -16,4 +16,6 @@ public interface ReviewMapper {
 	void updateReview(ReviewDTO reviewDto);
 	
 	void deleteReview(Long reviewId);
+	
+	List<ReviewDTO> getMyReviews(Long memberId);
 }

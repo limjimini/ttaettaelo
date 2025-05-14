@@ -32,4 +32,8 @@ public class ReviewService {
 	public void deleteReview(Long reviewId) {
 		reviewMapper.deleteReview(reviewId);
 	}
+	
+	public List<ReviewDTO> getMyReviews(Long memberId) {
+		return reviewMapper.getMyReviews(memberId);
+	}
 }

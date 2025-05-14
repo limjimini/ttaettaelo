@@ -67,4 +67,26 @@
 		INNER JOIN bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
 		WHERE b.bathhouse_info_id = #{bathhouseInfoId}
 	</select>
+	
+	<select id="getLikedBathhouse" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
+		SELECT
+			b.name AS name
+		FROM bathhouse_info b
+		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id
+		INNER JOIN member m ON l.member_id = m.member_id
+		WHERE m.member_id = #{memberId}
+	</select>
+	
+	<select id="getRandomImages" resultType="String">
+		SELECT
+			img_url AS imgUrl
+		FROM
+			bathhouse_info
+		WHERE
+			img_url IS NOT NULL
+		AND 
+			img_url != ''
+		ORDER BY RAND()
+		LIMIT 5
+	</select>
 </mapper>
