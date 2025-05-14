@@ -1,9 +1,11 @@
 package com.tanine.ttaettaelo.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.tanine.ttaettaelo.dto.LoginDTO;
 import com.tanine.ttaettaelo.dto.MemberDTO;
+import com.tanine.ttaettaelo.dto.MemberUpdatedDTO;
 
 @Mapper
 public interface MemberMapper {
@@ -14,5 +16,13 @@ public interface MemberMapper {
 	
 	LoginDTO loginMember(String loginId); // 로그인
 	
+	String getLoginIdByNameEmail(@Param("name") String name, @Param("email") String email); // 로그인 아이디 찾기
+	
 	MemberDTO getMemberById(Long memberId);
+	
+//	void updateMember(MemberUpdatedDTO memberUpdatedDto);
+	
+	MemberDTO getMemberByLoginIdEmail(@Param("loginId") String loginId, @Param("email") String email);
+	
+	void updatePassword(MemberDTO memberDto);
 }

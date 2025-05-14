@@ -2,7 +2,10 @@ package com.tanine.ttaettaelo.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,8 +15,10 @@ import org.springframework.validation.FieldError;
 
 import com.tanine.ttaettaelo.dto.LoginDTO;
 import com.tanine.ttaettaelo.dto.MemberDTO;
+import com.tanine.ttaettaelo.dto.MemberUpdatedDTO;
 import com.tanine.ttaettaelo.mapper.MemberMapper;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberMapper memberMapper;
+	private final PasswordEncoder passwordEncoder;
+	private final JavaMailSender mailSender;
 	
 	// 로그인 아이디 중복 체크
 	public boolean isDuplicatedLoginId(String loginId) {
@@ -58,8 +65,47 @@ public class MemberService {
         return member != null ? member.getName() : "익명";  // 사용자 이름 리턴
     }
 	
-	public MemberDTO getMemberById(Long memberId) {
-		MemberDTO member = memberMapper.getMemberById(memberId);
-		return member;
+	public String findLoginId(String name, String email) {
+		return memberMapper.getLoginIdByNameEmail(name, email);
 	}
+	
+	public boolean sendTemporaryPassword(String loginId, String email) throws MessagingException {
+		MemberDTO member = memberMapper.getMemberByLoginIdEmail(loginId, email);
+		
+		if(member == null) {
+			return false;
+		}
+		
+		String temporaryPassword = generateTemporaryPassword();
+		String encryptedPassword = passwordEncoder.encode(temporaryPassword);
+		
+		member.setPassword(encryptedPassword);
+		memberMapper.updatePassword(member);
+		
+		sendTemporaryPasswordEmail(member.getEmail(), temporaryPassword);
+		
+		return true;
+	}
+	
+	private String generateTemporaryPassword() {
+		return UUID.randomUUID().toString().substring(0, 8);
+	}
+	
+	private void sendTemporaryPasswordEmail(String toEmail, String temporaryPassword) throws MessagingException {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(toEmail);
+		message.setSubject("때때로 임시 비밀번호 발급");
+		message.setText("임시 비밀번호: " + temporaryPassword);
+		
+		mailSender.send(message);
+	}
+	
+//	public MemberDTO getMemberById(Long memberId) {
+//		MemberDTO member = memberMapper.getMemberById(memberId);
+//		return member;
+//	}
+//	
+//	public void updateMember(MemberUpdatedDTO memberUpdatedDto) {
+//		memberMapper.updateMember(memberUpdatedDto);
+//	}
 }

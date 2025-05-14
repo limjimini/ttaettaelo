@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.tanine.ttaettaelo.component.SessionManager;
 import com.tanine.ttaettaelo.dto.LoginDTO;
 import com.tanine.ttaettaelo.dto.MemberDTO;
+import com.tanine.ttaettaelo.dto.MemberUpdatedDTO;
 import com.tanine.ttaettaelo.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,10 +71,78 @@ public class MemberController {
 		}
 	}
 	
-	@PostMapping("/mypage")
-	public ResponseEntity<MemberDTO> getMypage(@RequestBody Map<String, Object> payload) {
-	    Long memberId = Long.parseLong(payload.get("memberId").toString());
-	    MemberDTO memberDto = memberService.getMemberById(memberId);
-	    return ResponseEntity.ok(memberDto);
+	@PostMapping("/findId")
+	public ResponseEntity<?> findId(@RequestBody MemberDTO mebmerDto) {
+	    String loginId = memberService.findLoginId(mebmerDto.getName(), mebmerDto.getEmail());
+	    if (loginId == null) {
+	        return ResponseEntity.ok(Map.of(
+	                "success", false,
+	                "message", "일치하는 사용자가 없습니다."
+	            ));
+	    }
+	    
+	    return ResponseEntity.ok(Map.of(
+	            "success", true,
+	            "loginId", loginId
+	        ));
 	}
+	
+    @PostMapping("/findPassword")
+    public ResponseEntity<Map<String, Object>> findPassword(@RequestBody MemberDTO memberDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            boolean success = memberService.sendTemporaryPassword(memberDto.getLoginId(), memberDto.getEmail());
+            if (success) {
+                response.put("success", true);
+                response.put("message", "임시 비밀번호가 이메일로 전송되었습니다.");
+            } else {
+                response.put("success", false);
+                response.put("message", "사용자를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "서버에서 오류가 발생했습니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+	
+//	@PostMapping("/mypage")
+//	public ResponseEntity<?> getMypage(@RequestBody Map<String, Object> payload) {
+//	    Object idObj = payload.get("memberId");
+//
+//	    if (idObj == null) {
+//	        return ResponseEntity.badRequest().body("memberId가 누락되었습니다.");
+//	    }
+//
+//	    try {
+//	        Long memberId = Long.parseLong(idObj.toString());
+//	        MemberDTO memberDto = memberService.getMemberById(memberId);
+//
+//	        if (memberDto == null) {
+//	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원 정보를 찾을 수 없습니다.");
+//	        }
+//
+//	        return ResponseEntity.ok(memberDto);
+//	    } catch (Exception e) {
+//	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류: " + e.getMessage());
+//	    }
+//	}
+//	
+//	@PostMapping("/updateMember")
+//    public ResponseEntity<String> updateMember(@RequestBody MemberUpdatedDTO memberUpdatedDto) {
+//        try {
+//            if (memberUpdatedDto.getMemberId() == null) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body("회원 ID가 없습니다.");
+//            }
+//            
+//            memberService.updateMember(memberUpdatedDto);
+//            return ResponseEntity.ok("정보가 성공적으로 업데이트되었습니다!");
+//        } catch (Exception e) {
+//        	e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("정보 업데이트에 실패했습니다!");
+//        }
+//    }
 }
