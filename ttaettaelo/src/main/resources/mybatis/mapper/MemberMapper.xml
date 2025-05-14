@@ -69,6 +69,20 @@
 			email = #{email}
 	</select>
 	
+	<select id="getMemberByLoginId" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
+		SELECT
+			member_id 		AS memberId,
+			login_id 		AS loginId,
+			email 			AS email,
+			name 			AS name,
+			gender 			AS gender,
+			address 		AS address
+		FROM
+			member
+		WHERE
+			login_id = #{loginId}
+	</select>
+	
 	<update id="updatePassword" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
 		UPDATE member
 		SET password = #{password}

@@ -144,4 +144,27 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+		
+	@PutMapping("/changePassword")
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> request) {
+	    String loginId = request.get("loginId");
+	    String newPassword = request.get("newPassword");
+	    
+		Map<String, Object> response = new HashMap<>();
+		try {
+			boolean success = memberService.changePassword(loginId, newPassword);
+			if (success) {
+                response.put("success", true);
+                response.put("message", "비밀번호가 변경되었습니다.");
+            } else {
+                response.put("success", false);
+                response.put("message", "비밀번호 변경에 실패하였습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "정보 업데이트에 실패했습니다!");
+        }
+		return ResponseEntity.ok(response);
+    }
 }

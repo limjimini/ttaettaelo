@@ -25,4 +25,6 @@ public interface MemberMapper {
 	MemberDTO getMemberByLoginIdEmail(@Param("loginId") String loginId, @Param("email") String email);
 	
 	void updatePassword(MemberDTO memberDto);
+	
+	MemberDTO getMemberByLoginId(@Param("loginId") String loginId);
 }

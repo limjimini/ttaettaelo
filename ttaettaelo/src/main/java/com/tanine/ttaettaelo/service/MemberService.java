@@ -118,4 +118,19 @@ public class MemberService {
 		    throw new RuntimeException("SQL 오류 발생: " + e.getMessage());
 		}
 	}
+	
+	public boolean changePassword(String loginId, String password) {
+		MemberDTO member = memberMapper.getMemberByLoginId(loginId);
+		
+		if(member == null) {
+			return false;
+		}
+		
+		String encryptedPassword = passwordEncoder.encode(password);
+		
+		member.setPassword(encryptedPassword);
+		memberMapper.updatePassword(member);
+				
+		return true;
+	}
 }
