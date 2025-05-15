@@ -10,10 +10,12 @@
 	    <result property="location" column="location" />
 	    <result property="imgUrl" column="imgUrl" />
 	    
+	    <!-- 서브 쿼리 -->
 	    <result property="avgRating" column="avgRating" />
     	<result property="reviewCount" column="reviewCount" />
     	<result property="likeCount" column="likeCount" />
 	    
+	    <!-- 목욕탕 태그 -->
 	    <collection property="tagKeyword" ofType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
 	        <result property="tagName" column="tagName"/>
 	    </collection>
@@ -21,80 +23,85 @@
 
 	<select id="getAllBathhouseInfo" resultMap="bathhouseInfoMap"> 
 		SELECT <!-- 목욕탕 정보글 조회 -->
-			b.bathhouse_info_id	AS bathhouseInfoId,
-			b.name 				AS name,
-			b.type 				AS type,
-			b.location 			AS location,
-			b.img_url			AS imgUrl,
-			t.tag_name			AS tagName,
-			(SELECT AVG(r.rating) FROM review r WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS avgRating,
-			(SELECT COUNT(r.review_id) FROM review r WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS reviewCount,
-			(SELECT COUNT(l.bathhouse_info_id) FROM bathhouse_info_like l WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
-			<!-- 평점 평균, 리뷰 수 좋아요 수 추가하기 -->
+			b.bathhouse_info_id		AS bathhouseInfoId,
+			b.name 					AS name,
+			b.type 					AS type,
+			b.location 				AS location,
+			b.img_url				AS imgUrl,
+			t.tag_name				AS tagName,
+			(
+				SELECT AVG(r.rating)
+				FROM review r
+				WHERE r.bathhouse_info_id = b.bathhouse_info_id
+			) 						AS avgRating,
+			(
+				SELECT COUNT(r.review_id)
+				FROM review r
+				WHERE r.bathhouse_info_id = b.bathhouse_info_id
+			) 						AS reviewCount,
+			(
+				SELECT COUNT(l.bathhouse_info_id)
+				FROM bathhouse_info_like l
+				WHERE l.bathhouse_info_id = b.bathhouse_info_id
+			) 						AS likeCount
 		FROM bathhouse_info b
 		INNER JOIN info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
 		INNER JOIN bathhouse_tag t ON m.tag_id = t.tag_id
-		ORDER BY b.bathhouse_info_id DESC
+		ORDER BY
+			b.bathhouse_info_id DESC
 	</select>
 	
 	<select id="getInfoDetailed" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
-		SELECT <!-- 목욕탕 정보상세글 조회 -->
-			bathhouse_info_id 	AS bathhouseInfoId,
-			name 				AS name,
-			introduction 		AS introduction,
-			type 				AS type,
-			location 			AS location,
-			start_time 			AS startTime,
-			end_time 			AS endTime,
-			closed_day 			AS closedDay,
-			contact_number 		AS contactNumber,
-			img_url 			AS imgUrl
-		<!-- r.review_id,
-			r.content,
-			r.rating,
-			r.created_at,
-			r.updated_at,
-			m.name,
-			COUNT(l.bathhouse_info_id) AS bathhouseInfoLikeCount -->
-		FROM bathhouse_info
-		<!-- LEFT JOIN review r ON b.bathhouse_info_id = r.bathhouse_info_id
-		LEFT JOIN member m ON r.member_id = m.member_id
-		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id -->
-		WHERE bathhouse_info_id = #{bathhouseInfoId}
-		<!-- GROUP BY b.bathhouse_info_id -->
+		SELECT <!-- 목욕탕 정보 상세글 조회 -->
+			bathhouse_info_id 		AS bathhouseInfoId,
+			name 					AS name,
+			introduction 			AS introduction,
+			type 					AS type,
+			location 				AS location,
+			start_time 				AS startTime,
+			end_time 				AS endTime,
+			closed_day 				AS closedDay,
+			contact_number 			AS contactNumber,
+			img_url 				AS imgUrl
+		FROM
+			bathhouse_info
+		WHERE
+			bathhouse_info_id = #{bathhouseInfoId}
 	</select>
 	
 	<select id="getTagByBAthhouseInfoId" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
-		SELECT <!-- 목욕탕 게시글의 아이디(번호)에 해당하는 태그 가져오기 -->
+		SELECT <!-- 목욕탕 아이디(번호)에 해당하는 태그 가져오기 -->
 			b.bathhouse_info_id 	AS bathhouseInfoId,
 			t.tag_id 				AS tagId,
 			t.tag_name 				AS tagName
 		FROM bathhouse_tag t
 		INNER JOIN info_tag_mapping m ON t.tag_id = m.tag_id
 		INNER JOIN bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
-		WHERE b.bathhouse_info_id = #{bathhouseInfoId}
+		WHERE
+			b.bathhouse_info_id = #{bathhouseInfoId}
 	</select>
 	
 	<select id="getLikedBathhouse" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
-		SELECT
-			b.bathhouse_info_id AS bathhouseInfoId,
-			b.name AS name
+		SELECT <!-- 내가 좋아요한 목욕탕 리스트 얻기 -->
+			b.bathhouse_info_id 	AS bathhouseInfoId,
+			b.name 					AS name
 		FROM bathhouse_info b
 		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id
 		INNER JOIN member m ON l.member_id = m.member_id
-		WHERE m.member_id = #{memberId}
+		WHERE
+			m.member_id = #{memberId}
 	</select>
 	
 	<select id="getRandomImages" resultType="String">
-		SELECT
-			img_url AS imgUrl
+		SELECT <!-- 랜덤으로 이미지 5개 뽑기 -->
+			img_url 	AS imgUrl
 		FROM
 			bathhouse_info
 		WHERE
 			img_url IS NOT NULL
 		AND 
 			img_url != ''
-		ORDER BY RAND()
-		LIMIT 5
+		ORDER BY
+			RAND() LIMIT 5
 	</select>
 </mapper>

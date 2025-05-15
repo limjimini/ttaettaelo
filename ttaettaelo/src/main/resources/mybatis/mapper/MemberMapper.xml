@@ -5,7 +5,7 @@
 <mapper namespace="com.tanine.ttaettaelo.mapper.MemberMapper">
 	<select id="countLoginId" resultType="int">
 		SELECT <!-- 중복 아이디 확인 -->
-			count(login_id) 	AS 로그인아이디수
+			count(login_id)
 		FROM
 			member
 		WHERE 
@@ -13,20 +13,22 @@
 	</select>
 	
 	<insert id="saveMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
-		INSERT INTO member <!-- 회원 저장 -->
-			  (login_id,
-			   password,
-			   name,
-			   email,
-			   gender,
-			   address)
-		VALUES
-			(#{loginId},
-			 #{password},
-			 #{name},
-			 #{email},
-			 #{gender},
-			 #{address})
+		INSERT INTO member ( <!-- 회원 등록 -->
+			  login_id,
+			  password,
+			  name,
+			  email,
+			  gender,
+			  address
+		)
+		VALUES (
+			#{loginId},
+			#{password},
+			#{name},
+			#{email},
+			#{gender},
+			#{address}
+		)
 	</insert>
 	
 	<select id="getMemberById" parameterType="Long" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
@@ -44,9 +46,10 @@
 	</select>
 	
 	<select id="getLoginIdByNameEmail" resultType="string">
-		SELECT
-			login_id AS loginId
-		FROM member
+		SELECT <!-- 이름과 이메일로 회원의 이름 얻기 -->
+			login_id 	AS loginId
+		FROM
+			member
 		WHERE
 			name = #{name}
 		AND
@@ -54,13 +57,13 @@
 	</select>
 	
 	<select id="getMemberByLoginIdEmail" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
-		SELECT
-			member_id 		AS memberId,
-			login_id 		AS loginId,
-			email 			AS email,
-			name 			AS name,
-			gender 			AS gender,
-			address 		AS address
+		SELECT <!-- 로그인 아이디와 이메일로 회원 정보 얻기 -->
+			member_id 	AS memberId,
+			login_id 	AS loginId,
+			email 		AS email,
+			name 		AS name,
+			gender 		AS gender,
+			address 	AS address
 		FROM
 			member
 		WHERE
@@ -70,13 +73,13 @@
 	</select>
 	
 	<select id="getMemberByLoginId" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
-		SELECT
-			member_id 		AS memberId,
-			login_id 		AS loginId,
-			email 			AS email,
-			name 			AS name,
-			gender 			AS gender,
-			address 		AS address
+		SELECT <!-- 로그인 아이디로 회원 정보 얻기 -->
+			member_id 	AS memberId,
+			login_id 	AS loginId,
+			email 		AS email,
+			name 		AS name,
+			gender 		AS gender,
+			address 	AS address
 		FROM
 			member
 		WHERE
@@ -84,25 +87,22 @@
 	</select>
 	
 	<update id="updatePassword" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
-		UPDATE member
+		UPDATE member <!-- 회원 비밀번호 변경 -->
 		SET password = #{password}
 		WHERE login_id = #{loginId}
 	</update>
 	
   	<update id="updateMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
-		UPDATE
-			member
-		SET
-			name = #{name},
-			email = #{email},
-			gender = #{gender},
+		UPDATE member <!-- 회원 정보 수정 -->
+		SET name 	= #{name},
+			email 	= #{email},
+			gender 	= #{gender},
 			address = COALESCE(#{address}, address)
-		WHERE 
-			member_id = #{memberId}
+		WHERE member_id = #{memberId}
 	</update>
 	
 	<delete id="deleteMemberById">
-		DELETE FROM member
+		DELETE FROM member <!-- 회원 탈퇴 -->
 		WHERE member_id  = #{memberId}
 	</delete>
 </mapper>

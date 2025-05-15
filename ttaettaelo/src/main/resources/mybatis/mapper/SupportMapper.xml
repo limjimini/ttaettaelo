@@ -53,8 +53,8 @@
     </insert>
     
     <update id="updateStatus"> 
-        UPDATE 	support <!-- 답변 상태 업데이트 -->
-        SET 	status = #{status}
-        WHERE	support_id = #{supportId}
+        UPDATE support <!-- 답변 상태 업데이트 -->
+        SET status = #{status}
+        WHERE support_id = #{supportId}
     </update>
 </mapper>

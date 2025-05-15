@@ -4,30 +4,39 @@
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoLikeMapper">
 	<insert id="insertLike">
-		INSERT INTO bathhouse_info_like
-			(bathhouse_info_id,
-			 member_id)
-		VALUES
-			(#{bathhouseInfoId},
-			 #{memberId})
+		INSERT INTO bathhouse_info_like ( <!-- 목욕탕 좋아요 추가 -->
+			bathhouse_info_id,
+			member_id	
+		)
+		VALUES (
+			#{bathhouseInfoId},
+			#{memberId}
+		)
 	</insert>
 	
 	<delete id="deleteLike">
-		DELETE FROM bathhouse_info_like
+		DELETE FROM bathhouse_info_like <!-- 목욕탕 좋아요 삭제 -->
 		WHERE bathhouse_info_id =#{bathhouseInfoId}
 		AND   member_id = #{memberId}
 	</delete>
 	
 	<select id="isLiked" resultType="boolean">
-		SELECT COUNT(*) > 0
-		FROM bathhouse_info_like
-		WHERE bathhouse_info_id =#{bathhouseInfoId}
-		AND   member_id = #{memberId}
+		SELECT <!-- 목욕탕 좋아요 중복 확인 -->
+			COUNT(*) > 0
+		FROM
+			bathhouse_info_like
+		WHERE
+			bathhouse_info_id =#{bathhouseInfoId}
+		AND
+			member_id = #{memberId}
 	</select>
 	
 	<select id="countLikes" resultType="int">
-		SELECT COUNT(*)
-		FROM bathhouse_info_like
-		WHERE bathhouse_info_id = #{bathhouseInfoId}
+		SELECT <!-- 목욕탕 좋아요 총 개수 -->
+			COUNT(*)
+		FROM
+			bathhouse_info_like
+		WHERE
+			bathhouse_info_id = #{bathhouseInfoId}
 	</select>
 </mapper>
