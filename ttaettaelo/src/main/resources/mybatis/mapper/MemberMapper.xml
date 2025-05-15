@@ -100,4 +100,9 @@
 		WHERE 
 			member_id = #{memberId}
 	</update>
+	
+	<delete id="deleteMemberById">
+		DELETE FROM member
+		WHERE member_id  = #{memberId}
+	</delete>
 </mapper>

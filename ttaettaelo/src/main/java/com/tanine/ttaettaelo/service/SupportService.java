@@ -20,10 +20,6 @@ public class SupportService {
 	public List<SupportDTO> getAllSupportWithAnswer() {
 		return supportMapper.getAllSupportWithAnswer();
 	}
-	
-	public SupportDTO getSupport(Long supportId) {
-		return supportMapper.getSupportById(supportId);
-	}
 
     public void submitSupport(SupportDTO supportDto) {
     	supportMapper.insertSupport(supportDto);

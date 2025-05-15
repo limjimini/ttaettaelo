@@ -10,6 +10,10 @@
 	    <result property="location" column="location" />
 	    <result property="imgUrl" column="imgUrl" />
 	    
+	    <result property="avgRating" column="avgRating" />
+    	<result property="reviewCount" column="reviewCount" />
+    	<result property="likeCount" column="likeCount" />
+	    
 	    <collection property="tagKeyword" ofType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
 	        <result property="tagName" column="tagName"/>
 	    </collection>
@@ -22,7 +26,10 @@
 			b.type 				AS type,
 			b.location 			AS location,
 			b.img_url			AS imgUrl,
-			t.tag_name			AS tagName
+			t.tag_name			AS tagName,
+			(SELECT AVG(r.rating) FROM review r WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS avgRating,
+			(SELECT COUNT(r.review_id) FROM review r WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS reviewCount,
+			(SELECT COUNT(l.bathhouse_info_id) FROM bathhouse_info_like l WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
 			<!-- 평점 평균, 리뷰 수 좋아요 수 추가하기 -->
 		FROM bathhouse_info b
 		INNER JOIN info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
@@ -70,6 +77,7 @@
 	
 	<select id="getLikedBathhouse" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
 		SELECT
+			b.bathhouse_info_id AS bathhouseInfoId,
 			b.name AS name
 		FROM bathhouse_info b
 		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id

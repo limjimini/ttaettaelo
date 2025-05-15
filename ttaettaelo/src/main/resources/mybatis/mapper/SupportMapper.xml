@@ -2,28 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tanine.ttaettaelo.mapper.SupportMapper">
-	<resultMap id="SupportWithAnswer" type="com.tanine.ttaettaelo.dto.SupportDTO">
-	    <id property="supportId" column="supportId"/>
-	    <result property="title" column="title"/>
-	    <result property="content" column="content"/>
-	    <result property="status" column="status"/>
-	    <result property="createdAt" column="createdAt"/>
-	    
-	    <association property="member" javaType="com.tanine.ttaettaelo.dto.MemberDTO">
-	        <id property="memberId" column="memberId"/>
-	        <result property="name" column="name"/>
-	    </association>
-	
-	    <association property="answer" javaType="com.tanine.ttaettaelo.dto.SupportAnswerDTO">
-	        <id property="answerId" column="answerId"/>
-	        <result property="supportId" column="answerSupportId"/>
-	        <result property="content" column="answerContent"/>
-	        <result property="createdAt" column="answerCreatedAt"/>
-	    </association>
-	</resultMap>
-	
-	<select id="getAllSupportWithAnswer" resultMap="SupportWithAnswer">
+<mapper namespace="com.tanine.ttaettaelo.mapper.SupportMapper">	
+	<select id="getAllSupportWithAnswer" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
 		SELECT
 			s.support_id 	AS supportId,
 			s.title 		AS title,
@@ -60,19 +40,21 @@
 	</select>
 		
 	<insert id="insertSupport" parameterType="com.tanine.ttaettaelo.dto.SupportDTO">
-        INSERT INTO support <!-- 문의하기 등록-->
-        	(member_id, 
-        	 title, 
-        	 content)
-        VALUES
-        	(#{memberId},
-        	 #{title}, 
-        	 #{content})
+        INSERT INTO support ( <!-- 문의하기 등록-->
+        	member_id, 
+        	title, 
+        	content
+        )
+        VALUES (
+        	#{memberId},
+        	#{title}, 
+        	#{content}
+        )
     </insert>
     
-    <update id="updateStatus">
-        UPDATE support <!-- 답변 상태 업데이트 -->
-        SET status = #{status}
-        WHERE support_id = #{supportId}
+    <update id="updateStatus"> 
+        UPDATE 	support <!-- 답변 상태 업데이트 -->
+        SET 	status = #{status}
+        WHERE	support_id = #{supportId}
     </update>
 </mapper>

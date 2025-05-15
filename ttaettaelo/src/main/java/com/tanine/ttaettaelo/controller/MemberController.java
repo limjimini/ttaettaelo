@@ -167,4 +167,19 @@ public class MemberController {
         }
 		return ResponseEntity.ok(response);
     }
+	
+	@PostMapping("/deleteAccount")
+	public ResponseEntity<Map<String, Object>> deleteAccount(@RequestBody MemberDTO memberDto) {
+		boolean isDeleted = memberService.deleteAccount(memberDto.getMemberId());
+		Map<String, Object> response = new HashMap<>();
+		if(isDeleted) {
+            response.put("success", true);
+            response.put("message", "탈퇴 완료");
+            return ResponseEntity.ok(response);
+		} else {
+			response.put("success", false);
+            response.put("message", "탈퇴 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+	}
 }

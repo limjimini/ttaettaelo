@@ -27,4 +27,6 @@ public interface MemberMapper {
 	void updatePassword(MemberDTO memberDto);
 	
 	MemberDTO getMemberByLoginId(@Param("loginId") String loginId);
+	
+	int deleteMemberById(@Param("memberId") Long memberId);
 }

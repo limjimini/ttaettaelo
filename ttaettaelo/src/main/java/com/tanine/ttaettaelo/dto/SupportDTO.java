@@ -22,7 +22,8 @@ public class SupportDTO {
 	private String content;
 	private String status;
 	private LocalDateTime createdAt;
-	
-	private MemberDTO member;
-	private SupportAnswerDTO answer;
+	private String name;
+	private Long answerId;
+	private String answerContent;
+	private LocalDateTime answerCreatedAt;
 }

@@ -33,6 +33,10 @@ public class BathhouseInfoDTO {
 	private String contactNumber;
 	private String imgUrl;
 	
+	private double avgRating;
+	private int reviewCount;
+	private int likeCount;
+	
 	private List<BathhouseTagDTO> tagKeyword;
 	private List<BathhouseTagsForDetailedDTO> tags;
 	private List<ReviewDTO> reviews;

@@ -52,6 +52,7 @@
 			r.review_id AS reviewId,
 			r.rating AS rating,
 			r.content AS content,
+			b.bathhouse_info_id AS bathhouseInfoId,
 			b.name AS name
 		FROM review r
 		INNER JOIN member m ON r.member_id = m.member_id

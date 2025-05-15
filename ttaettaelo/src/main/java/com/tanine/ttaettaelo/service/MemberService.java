@@ -133,4 +133,14 @@ public class MemberService {
 				
 		return true;
 	}
+	
+	public boolean deleteAccount(Long memberId) {
+		try {
+			int result = memberMapper.deleteMemberById(memberId);
+			return result > 0; // 1 이상의 값은 삭제 성공
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
