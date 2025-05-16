@@ -12,7 +12,7 @@
 			login_id = #{loginId}
 	</select>
 	
-	<insert id="saveMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
+	<insert id="insertMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
 		INSERT INTO member ( <!-- 회원 등록 -->
 			  login_id,
 			  password,
@@ -45,8 +45,8 @@
 			member_id = #{memberId}
 	</select>
 	
-	<select id="getLoginIdByNameEmail" resultType="string">
-		SELECT <!-- 이름과 이메일로 회원의 이름 얻기 -->
+	<select id="getLoginIdByNameAndEmail" resultType="string">
+		SELECT <!-- 이름과 이메일 주소로 회원의 이름 얻기 -->
 			login_id 	AS loginId
 		FROM
 			member
@@ -56,8 +56,8 @@
 			email = #{email}
 	</select>
 	
-	<select id="getMemberByLoginIdEmail" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
-		SELECT <!-- 로그인 아이디와 이메일로 회원 정보 얻기 -->
+	<select id="getMemberByLoginIdAndEmail" resultType="com.tanine.ttaettaelo.dto.MemberDTO">
+		SELECT <!-- 로그인 아이디와 이메일 주소로 회원 정보 얻기 -->
 			member_id 	AS memberId,
 			login_id 	AS loginId,
 			email 		AS email,
@@ -93,7 +93,7 @@
 	</update>
 	
   	<update id="updateMember" parameterType="com.tanine.ttaettaelo.dto.MemberDTO">
-		UPDATE member <!-- 회원 정보 수정 -->
+		UPDATE member <!-- 회원 정보 변경 -->
 		SET name 	= #{name},
 			email 	= #{email},
 			gender 	= #{gender},
@@ -102,7 +102,7 @@
 	</update>
 	
 	<delete id="deleteMemberById">
-		DELETE FROM member <!-- 회원 탈퇴 -->
+		DELETE FROM member <!-- 회원 삭제 -->
 		WHERE member_id  = #{memberId}
 	</delete>
 </mapper>

@@ -3,30 +3,29 @@ package com.tanine.ttaettaelo.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.tanine.ttaettaelo.dto.LoginDTO;
 import com.tanine.ttaettaelo.dto.MemberDTO;
-import com.tanine.ttaettaelo.dto.MemberUpdatedDTO;
 
+/**
+ * 회원 관련 데이터베이스 연동을 처리하는 마이바티스 매퍼 인터페이스
+ */
 @Mapper
 public interface MemberMapper {
 	
-	int countLoginId(String loginId); // 중복아이디 체크
+	int countLoginId(String loginId); // 중복 아이디 체크
 	
-	void saveMember(MemberDTO memberDto); // 회원가입
+	void insertMember(MemberDTO memberDto); // 회원 등록
 	
-	LoginDTO loginMember(String loginId); // 로그인
+	MemberDTO getMemberById(Long memberId); // 회원 번호로 회원 정보 얻기
 	
-	String getLoginIdByNameEmail(@Param("name") String name, @Param("email") String email); // 로그인 아이디 찾기
+	String getLoginIdByNameAndEmail(@Param("name") String name, @Param("email") String email); // 이름과 이메일 주소로 로그인 아이디 찾기
 	
-	MemberDTO getMemberById(Long memberId);
+	MemberDTO getMemberByLoginIdAndEmail(@Param("loginId") String loginId, @Param("email") String email); // 로그인 아이디와 이메일 주소로 회원 정보 얻기
+
+	MemberDTO getMemberByLoginId(@Param("loginId") String loginId); // 로그인 아이디로 회원 정보 얻기
+		
+	int updateMember(MemberDTO memberDto); // 회원 정보 변경
 	
-	int updateMember(MemberDTO memberDto);
+	void updatePassword(MemberDTO memberDto); // 비밀번호 변경
 	
-	MemberDTO getMemberByLoginIdEmail(@Param("loginId") String loginId, @Param("email") String email);
-	
-	void updatePassword(MemberDTO memberDto);
-	
-	MemberDTO getMemberByLoginId(@Param("loginId") String loginId);
-	
-	int deleteMemberById(@Param("memberId") Long memberId);
+	int deleteMemberById(@Param("memberId") Long memberId); // 회원 번호로 회원 삭제
 }
