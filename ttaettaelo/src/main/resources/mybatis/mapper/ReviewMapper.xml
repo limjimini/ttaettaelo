@@ -4,7 +4,7 @@
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.ReviewMapper">
 	<insert id="insertReview" parameterType="com.tanine.ttaettaelo.dto.ReviewDTO">
-        INSERT INTO review ( <!-- 리뷰 등록 -->
+        INSERT INTO ojt_review ( <!-- 리뷰 등록 -->
         	bathhouse_info_id, 
         	member_id, 
         	content, 
@@ -28,9 +28,9 @@
     		r.created_at 			AS createdAt,
     		r.updated_at 			AS updatedAt,
     		m.name 					AS name
-    	FROM review r
-    	INNER JOIN member m ON r.member_id = m.member_id
-    	RIGHT JOIN bathhouse_info b on r.bathhouse_info_id = b.bathhouse_info_id
+    	FROM ojt_review r
+    	INNER JOIN ojt_member m ON r.member_id = m.member_id
+    	LEFT JOIN ojt_bathhouse_info b on r.bathhouse_info_id = b.bathhouse_info_id
     	WHERE
     		b.bathhouse_info_id = #{bathhouseInfoId}
     	ORDER BY
@@ -38,14 +38,14 @@
     </select>
     
     <update id="updateReview" parameterType="com.tanine.ttaettaelo.dto.ReviewDTO">
-	    UPDATE review <!-- 리뷰 수정 -->
+	    UPDATE ojt_review <!-- 리뷰 수정 -->
 	    SET content = #{content},
 	        rating 	= #{rating}
 	    WHERE review_id = #{reviewId}
 	</update>
 	
 	<delete id="deleteReview" parameterType="Long">
-	    DELETE FROM review <!-- 리뷰 삭제 -->
+	    DELETE FROM ojt_review <!-- 리뷰 삭제 -->
 	    WHERE review_id = #{reviewId}
 	</delete>
 	
@@ -56,9 +56,9 @@
 			r.content 				AS content,
 			b.bathhouse_info_id 	AS bathhouseInfoId,
 			b.name AS name
-		FROM review r
-		INNER JOIN member m ON r.member_id = m.member_id
-		RIGHT JOIN bathhouse_info b ON r.bathhouse_info_id = b.bathhouse_info_id
+		FROM ojt_review r
+		INNER JOIN ojt_member m ON r.member_id = m.member_id
+		LEFT JOIN ojt_bathhouse_info b ON r.bathhouse_info_id = b.bathhouse_info_id
 		WHERE
 			m.member_id = #{memberId}
 	</select>

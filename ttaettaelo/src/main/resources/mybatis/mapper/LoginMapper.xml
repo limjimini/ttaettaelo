@@ -12,10 +12,13 @@
 			email 		AS email,
 			gender 		AS gender,
 			address 	AS address,
-			role 		AS role
+			role 		AS role,
+			is_deleted 	AS isDeleted
 		FROM
-			member
+			ojt_member
 		WHERE
 			login_id = #{loginId}
+		AND
+			is_deleted = 0
 	</select>
 </mapper>

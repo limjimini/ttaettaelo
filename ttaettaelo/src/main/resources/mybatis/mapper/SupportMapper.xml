@@ -16,9 +16,9 @@
 			a.support_id 	AS answerSupportId,
 			a.content 		AS answerContent,
 			a.created_at	AS answerCreatedAt
-		FROM support s
-		INNER JOIN member m ON s.member_id = m.member_id
-		LEFT JOIN support_answer a ON s.support_id = a.support_id
+		FROM ojt_support s
+		INNER JOIN ojt_member m ON s.member_id = m.member_id
+		LEFT JOIN ojt_support_answer a ON s.support_id = a.support_id
 		ORDER BY s.support_id DESC
 	</select>
 
@@ -33,14 +33,14 @@
 			a.answer_id 	AS answerId,
 			a.content 		AS answerContent,
 			a.created_at 	AS answerCreatedAt
-		FROM support s
-		INNER JOIN member m ON s.member_id = m.member_id
-		LEFT JOIN support_answer a ON s.support_id = a.support_id
+		FROM ojt_support s
+		INNER JOIN ojt_member m ON s.member_id = m.member_id
+		LEFT JOIN ojt_support_answer a ON s.support_id = a.support_id
 		WHERE s.support_id = #{supportId}
 	</select>
 		
 	<insert id="insertSupport" parameterType="com.tanine.ttaettaelo.dto.SupportDTO">
-        INSERT INTO support ( <!-- 문의하기 등록-->
+        INSERT INTO ojt_support ( <!-- 문의하기 등록-->
         	member_id, 
         	title, 
         	content
@@ -53,7 +53,7 @@
     </insert>
     
     <update id="updateStatus"> 
-        UPDATE support <!-- 답변 상태 업데이트 -->
+        UPDATE ojt_support <!-- 답변 상태 업데이트 -->
         SET status = #{status}
         WHERE support_id = #{supportId}
     </update>

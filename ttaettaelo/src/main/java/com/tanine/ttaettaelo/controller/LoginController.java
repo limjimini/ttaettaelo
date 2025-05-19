@@ -50,7 +50,7 @@ public class LoginController {
 	    LoginDTO member = loginService.login(loginId, password, response);
 		
 		if(member == null) { // 로그인 실패
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 일치하지 않습니다.");
 		}
 		
 		return ResponseEntity.ok(member); // 로그인 성공

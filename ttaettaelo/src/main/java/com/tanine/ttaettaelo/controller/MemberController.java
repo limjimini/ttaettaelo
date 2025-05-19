@@ -181,7 +181,7 @@ public class MemberController {
 	 */
 	@PostMapping("/deleteAccount")
 	public ResponseEntity<Map<String, Object>> deleteAccount(@RequestBody MemberDTO memberDto) {
-		boolean isDeleted = memberService.deleteAccount(memberDto.getMemberId()); // 회원 탈
+		boolean isDeleted = memberService.deleteAccount(memberDto.getMemberId()); // 회원 탈퇴
 		
 		Map<String, Object> response = new HashMap<>();
 		if(isDeleted) { // 탈퇴 성공

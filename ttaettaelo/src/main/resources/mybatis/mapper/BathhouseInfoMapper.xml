@@ -29,24 +29,18 @@
 			b.location 				AS location,
 			b.img_url				AS imgUrl,
 			t.tag_name				AS tagName,
-			(
-				SELECT AVG(r.rating)
-				FROM review r
-				WHERE r.bathhouse_info_id = b.bathhouse_info_id
-			) 						AS avgRating,
-			(
-				SELECT COUNT(r.review_id)
-				FROM review r
-				WHERE r.bathhouse_info_id = b.bathhouse_info_id
-			) 						AS reviewCount,
-			(
-				SELECT COUNT(l.bathhouse_info_id)
-				FROM bathhouse_info_like l
-				WHERE l.bathhouse_info_id = b.bathhouse_info_id
-			) 						AS likeCount
-		FROM bathhouse_info b
-		INNER JOIN info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
-		INNER JOIN bathhouse_tag t ON m.tag_id = t.tag_id
+			( SELECT AVG(r.rating)
+				FROM ojt_review r
+				WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS avgRating,
+			( SELECT COUNT(r.review_id)
+				FROM ojt_review r
+				WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS reviewCount,
+			( SELECT COUNT(l.bathhouse_info_id)
+				FROM ojt_bathhouse_info_like l
+				WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
+		FROM ojt_bathhouse_info b
+		INNER JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
+		INNER JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
 		ORDER BY
 			b.bathhouse_info_id DESC
 	</select>
@@ -64,7 +58,7 @@
 			contact_number 			AS contactNumber,
 			img_url 				AS imgUrl
 		FROM
-			bathhouse_info
+			ojt_bathhouse_info
 		WHERE
 			bathhouse_info_id = #{bathhouseInfoId}
 	</select>
@@ -74,9 +68,9 @@
 			b.bathhouse_info_id 	AS bathhouseInfoId,
 			t.tag_id 				AS tagId,
 			t.tag_name 				AS tagName
-		FROM bathhouse_tag t
-		INNER JOIN info_tag_mapping m ON t.tag_id = m.tag_id
-		INNER JOIN bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
+		FROM ojt_bathhouse_tag t
+		INNER JOIN ojt_info_tag_mapping m ON t.tag_id = m.tag_id
+		INNER JOIN ojt_bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
 		WHERE
 			b.bathhouse_info_id = #{bathhouseInfoId}
 	</select>
@@ -85,9 +79,9 @@
 		SELECT <!-- 내가 좋아요한 목욕탕 리스트 얻기 -->
 			b.bathhouse_info_id 	AS bathhouseInfoId,
 			b.name 					AS name
-		FROM bathhouse_info b
-		LEFT JOIN bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id
-		INNER JOIN member m ON l.member_id = m.member_id
+		FROM ojt_bathhouse_info b
+		LEFT JOIN ojt_bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id
+		INNER JOIN ojt_member m ON l.member_id = m.member_id
 		WHERE
 			m.member_id = #{memberId}
 	</select>
@@ -96,7 +90,7 @@
 		SELECT <!-- 랜덤으로 이미지 5개 뽑기 -->
 			img_url 	AS imgUrl
 		FROM
-			bathhouse_info
+			ojt_bathhouse_info
 		WHERE
 			img_url IS NOT NULL
 		AND 
