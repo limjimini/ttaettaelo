@@ -16,7 +16,7 @@ public class LoginService {
 	
 	private final LoginMapper loginMapper;
 	private final PasswordEncoder passwordEncoder;
-	private final SessionManager sessionManager;
+//	private final SessionManager sessionManager;
 
 	// 로그인
 	public LoginDTO login(String logindId, String password, HttpServletResponse response) {
@@ -28,7 +28,7 @@ public class LoginService {
 		}
 		
 		// 로그인 성공시 세션 생성
-		sessionManager.createSession(member, response);
+//		sessionManager.createSession(member, response);
 		
 		return member; // 로그인 성공
 	}

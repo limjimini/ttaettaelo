@@ -4,7 +4,7 @@
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.SupportMapper">	
 	<select id="getAllSupportWithAnswer" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
-		SELECT
+		SELECT <!-- 문의글과 답변 같이 조회 -->
 			s.support_id 	AS supportId,
 			s.title 		AS title,
 			s.content 		AS content,
@@ -17,13 +17,13 @@
 			a.content 		AS answerContent,
 			a.created_at	AS answerCreatedAt
 		FROM ojt_support s
-		INNER JOIN ojt_member m ON s.member_id = m.member_id
 		LEFT JOIN ojt_support_answer a ON s.support_id = a.support_id
+		INNER JOIN ojt_member m ON s.member_id = m.member_id
 		ORDER BY s.support_id DESC
 	</select>
 
 	<select id="getSupportById" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
-		SELECT
+		SELECT <!-- 문의아이디를 통해 문의글, 문의답변 조회 -->
 			s.support_id 	AS supportId,
 			s.title 		AS title,
 			s.content 		AS content,

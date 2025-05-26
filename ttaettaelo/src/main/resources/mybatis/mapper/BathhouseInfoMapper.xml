@@ -29,18 +29,22 @@
 			b.location 				AS location,
 			b.img_url				AS imgUrl,
 			t.tag_name				AS tagName,
-			( SELECT AVG(r.rating)
-				FROM ojt_review r
-				WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS avgRating,
-			( SELECT COUNT(r.review_id)
-				FROM ojt_review r
-				WHERE r.bathhouse_info_id = b.bathhouse_info_id) AS reviewCount,
+			AVG(r.rating) 			AS avgRating,
+			COUNT(r.review_id) 		AS reviewCount,
 			( SELECT COUNT(l.bathhouse_info_id)
 				FROM ojt_bathhouse_info_like l
 				WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
 		FROM ojt_bathhouse_info b
+		LEFT JOIN ojt_review r ON r.bathhouse_info_id = b.bathhouse_info_id
 		INNER JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
 		INNER JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
+		GROUP BY
+			b.bathhouse_info_id,
+			b.name,
+			b.type,
+			b.location,
+			b.img_url,
+			t.tag_name
 		ORDER BY
 			b.bathhouse_info_id DESC
 	</select>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/reviews")
+@RequestMapping("/api")
 public class ReviewController {
 
 	private final ReviewService reviewService;
@@ -43,18 +44,21 @@ public class ReviewController {
 		return reviewService.getReviewsByBathhouseId(bathhouseInfoId);
 	}
 	
+	// 리뷰 수정
     @PutMapping("/reviews/update")
     public ResponseEntity<?> updateReview(@RequestBody ReviewDTO reviewDto) {
         reviewService.updateReview(reviewDto);
         return ResponseEntity.ok("리뷰 수정 성공");
     }
 
+    // 리뷰 삭제
     @DeleteMapping("/reviews/delete/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable(name = "reviewId") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok("리뷰 삭제 성공");
     }
     
+    // 내가 쓴 리뷰 불러오기
     @GetMapping("/myReviews")
 	public ResponseEntity<List<ReviewDTO>> getMyReviews(@RequestParam("memberId") Long memberId) {
         List<ReviewDTO> myReviews = reviewService.getMyReviews(memberId);

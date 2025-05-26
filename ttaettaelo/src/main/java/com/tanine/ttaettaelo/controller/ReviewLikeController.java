@@ -19,13 +19,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewLikeController {
 
     private final ReviewLikeService reviewLikeService;
 
     @PostMapping("/like")
-    public ResponseEntity<Map<String, Object>> reviewLike(@RequestBody ReviewLikeDTO reviewLikeDto) {
+    public ResponseEntity<Map<String, Object>> reviewLike(@RequestBody ReviewLikeDTO reviewLikeDto) { // 좋아요 실행/취소
         boolean like = reviewLikeService.reviewLike(reviewLikeDto.getReviewId(), reviewLikeDto.getMemberId());
         int likeCount = reviewLikeService.getLikeCount(reviewLikeDto.getReviewId());
 
@@ -36,7 +36,7 @@ public class ReviewLikeController {
     }
 
     @GetMapping("/{reviewId}/like")
-    public ResponseEntity<Map<String, Integer>> getLikeCount(@PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<Map<String, Integer>> getLikeCount(@PathVariable("reviewId") long reviewId) { // 리뷰 좋아요 수
         int likeCount = reviewLikeService.getLikeCount(reviewId);
         Map<String, Integer> response = new HashMap<>();
         response.put("likeCount", likeCount);

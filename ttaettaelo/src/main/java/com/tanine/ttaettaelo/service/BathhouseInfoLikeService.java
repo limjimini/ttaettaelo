@@ -12,7 +12,7 @@ public class BathhouseInfoLikeService {
 
 	private final BathhouseInfoLikeMapper bathhouseInfoLikeMapper;
 	
-	public boolean bathhouseLike(Long bathhouseInfoId, Long memberId) {
+	public boolean bathhouseLike(Long bathhouseInfoId, Long memberId) { // 좋아요 실행/취소
 		if(bathhouseInfoLikeMapper.isLiked(bathhouseInfoId, memberId)) {
 			bathhouseInfoLikeMapper.deleteLike(bathhouseInfoId, memberId);
 			return false; // 좋아요 취소
@@ -22,7 +22,7 @@ public class BathhouseInfoLikeService {
 		}
 	}
 	
-	public int getLikeCount(Long bathhouseInfoId) {
+	public int getLikeCount(Long bathhouseInfoId) { // 목욕탕 총 좋아요 수
 		return bathhouseInfoLikeMapper.countLikes(bathhouseInfoId);
 	}
 }

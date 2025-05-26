@@ -17,15 +17,15 @@ public class SupportService {
 
 	private final SupportMapper supportMapper;
 	
-	public List<SupportDTO> getAllSupportWithAnswer() {
+	public List<SupportDTO> getAllSupportWithAnswer() { // 문의글 + 문의답변 조회
 		return supportMapper.getAllSupportWithAnswer();
 	}
 
-    public void submitSupport(SupportDTO supportDto) {
+    public void submitSupport(SupportDTO supportDto) { // 문의글 작성
     	supportMapper.insertSupport(supportDto);
     }
 
-    public void updateStatus() {
+    public void updateStatus() { // 문의 상태 업데이트
         supportMapper.updateStatus("답변 완료");
     }
 }

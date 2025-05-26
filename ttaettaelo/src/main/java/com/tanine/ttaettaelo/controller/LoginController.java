@@ -28,22 +28,23 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class LoginController {
 
 	private final LoginService loginService;
-	private final PasswordEncoder passwordEncoder;
-	private final SessionManager sessionManager;
+//	private final PasswordEncoder passwordEncoder;
+//	private final SessionManager sessionManager;
 	
     @GetMapping("/login")
-    public String loginPage(@RequestParam(value = "logout", required = false) String logout, Model model) {
+    public String loginPage(@RequestParam(value = "logout", required = false) String logout, Model model) { // 로그아웃 후 홈 화면으로
         if (logout != null) {
             model.addAttribute("message", "로그아웃 되었습니다.");
         }
-        return "redirect:http://localhost:8082/login"; // login.html 또는 login.jsp로 리턴
+        return "redirect:http://localhost:8082/home";
     }
 		
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginDTO request, HttpServletResponse response) {		
+	public ResponseEntity<?> login(@RequestBody LoginDTO request, HttpServletResponse response) { // 로그인	
 	    String loginId = request.getLoginId();
 	    String password = request.getPassword();
 	    
@@ -81,8 +82,8 @@ public class LoginController {
 //	}
 	
 	@PostMapping("/logout")
-	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
-		sessionManager.expire(request); // 세션 종료
+	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) { // 로그아웃
+//		sessionManager.expire(request); // 세션 종료
 		return ResponseEntity.ok().build(); // 로그아웃
 	}
 }

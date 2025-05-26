@@ -25,14 +25,16 @@ public class ReviewService {
 		return reviewMapper.getReviewsByBathhouseInfoId(bathhouseInfoId);
 	}
 	
+	// 리뷰 수정
 	public void updateReview(ReviewDTO reviewDto) {
 		reviewMapper.updateReview(reviewDto);
 	}
-	
+	 // 리뷰 삭제
 	public void deleteReview(Long reviewId) {
 		reviewMapper.deleteReview(reviewId);
 	}
 	
+	// 내가 쓴 리뷰 리스트 가져오기
 	public List<ReviewDTO> getMyReviews(Long memberId) {
 		return reviewMapper.getMyReviews(memberId);
 	}

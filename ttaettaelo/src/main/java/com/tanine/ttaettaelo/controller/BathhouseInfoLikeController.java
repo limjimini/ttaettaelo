@@ -19,13 +19,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/bathhouse")
+@RequestMapping("/api/bathhouse")
 public class BathhouseInfoLikeController {
 
 	private final BathhouseInfoLikeService bathhouseInfoLikeService;
 	
     @PostMapping("/like")
-    public ResponseEntity<Map<String, Object>> bathhouseLike(@RequestBody BathhouseInfoLikeDTO bathhouseInfoLikeDto) {
+    public ResponseEntity<Map<String, Object>> bathhouseLike(@RequestBody BathhouseInfoLikeDTO bathhouseInfoLikeDto) { // 좋아요 실행/취소
         boolean like = bathhouseInfoLikeService.bathhouseLike(bathhouseInfoLikeDto.getBathhouseInfoId(), bathhouseInfoLikeDto.getMemberId());
         int likeCount = bathhouseInfoLikeService.getLikeCount(bathhouseInfoLikeDto.getBathhouseInfoId());
         Map<String, Object> response = new HashMap<>();
@@ -35,7 +35,7 @@ public class BathhouseInfoLikeController {
     }
 
     @GetMapping("/{bathhouseInfoId}/like")
-    public ResponseEntity<Map<String, Integer>> getLikeCount(@PathVariable("bathhouseInfoId") Long bathhouseInfoId) {
+    public ResponseEntity<Map<String, Integer>> getLikeCount(@PathVariable("bathhouseInfoId") Long bathhouseInfoId) { // 좋아요 개수
         int likeCount = bathhouseInfoLikeService.getLikeCount(bathhouseInfoId);
         Map<String, Integer> response = new HashMap<>();
         response.put("likeCount", likeCount);

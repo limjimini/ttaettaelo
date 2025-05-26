@@ -26,4 +26,5 @@ public class ReviewDTO {
 	private LocalDateTime updatedAt;
 	
 	private String name;
+	private int likeCount;
 }

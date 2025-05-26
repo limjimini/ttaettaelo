@@ -27,14 +27,17 @@
     		r.rating 				AS rating,
     		r.created_at 			AS createdAt,
     		r.updated_at 			AS updatedAt,
-    		m.name 					AS name
+    		m.name 					AS name,
+    		( SELECT COUNT(*) 
+      			FROM ojt_review_like l 
+      		   WHERE l.review_id = r.review_id) AS likeCount
     	FROM ojt_review r
     	INNER JOIN ojt_member m ON r.member_id = m.member_id
     	LEFT JOIN ojt_bathhouse_info b on r.bathhouse_info_id = b.bathhouse_info_id
     	WHERE
     		b.bathhouse_info_id = #{bathhouseInfoId}
     	ORDER BY
-    		review_id
+    		r.review_id
     </select>
     
     <update id="updateReview" parameterType="com.tanine.ttaettaelo.dto.ReviewDTO">
