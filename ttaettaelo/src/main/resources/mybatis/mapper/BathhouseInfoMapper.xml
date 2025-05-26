@@ -36,8 +36,8 @@
 				WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
 		FROM ojt_bathhouse_info b
 		LEFT JOIN ojt_review r ON r.bathhouse_info_id = b.bathhouse_info_id
-		INNER JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
-		INNER JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
+		LEFT JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
+		LEFT JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
 		GROUP BY
 			b.bathhouse_info_id,
 			b.name,
