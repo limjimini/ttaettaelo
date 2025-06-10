@@ -4,6 +4,7 @@
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoMapper">
 	<resultMap id="bathhouseInfoMap" type="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
+		<!-- 목욕탕 정보 -->
 	    <id property="bathhouseInfoId" column="bathhouseInfoId" />
 	    <result property="name" column="name" />
 	    <result property="type" column="type" />
@@ -21,19 +22,20 @@
 	    </collection>
 	</resultMap>
 
+	<!-- 목욕탕 정보글 조회 -->
 	<select id="getAllBathhouseInfo" resultMap="bathhouseInfoMap"> 
-		SELECT <!-- 목욕탕 정보글 조회 -->
-			b.bathhouse_info_id		AS bathhouseInfoId,
-			b.name 					AS name,
-			b.type 					AS type,
-			b.location 				AS location,
-			b.img_url				AS imgUrl,
-			t.tag_name				AS tagName,
-			AVG(r.rating) 			AS avgRating,
-			COUNT(r.review_id) 		AS reviewCount,
+		SELECT 
+			b.bathhouse_info_id		AS bathhouseInfoId,							<!-- 목욕탕 정보글 일련번호 -->
+			b.name 					AS name,									<!-- 목욕탕 이름 -->
+			b.type 					AS type,									<!-- 목욕탕 타입 -->
+			b.location 				AS location,								<!-- 위치 -->
+			b.img_url				AS imgUrl,									<!-- 이미지 -->
+			t.tag_name				AS tagName,									<!-- 목욕탕 태그 -->
+			AVG(r.rating) 			AS avgRating,								<!-- 평균 평점 -->
+			COUNT(r.review_id) 		AS reviewCount,								<!-- 리뷰 수 -->
 			( SELECT COUNT(l.bathhouse_info_id)
 				FROM ojt_bathhouse_info_like l
-				WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount
+				WHERE l.bathhouse_info_id = b.bathhouse_info_id) AS likeCount	<!-- 좋아요 수 -->
 		FROM ojt_bathhouse_info b
 		LEFT JOIN ojt_review r ON r.bathhouse_info_id = b.bathhouse_info_id
 		LEFT JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
@@ -49,29 +51,31 @@
 			b.bathhouse_info_id DESC
 	</select>
 	
+	<!-- 목욕탕 정보 상세글 조회 -->
 	<select id="getInfoDetailed" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
-		SELECT <!-- 목욕탕 정보 상세글 조회 -->
-			bathhouse_info_id 		AS bathhouseInfoId,
-			name 					AS name,
-			introduction 			AS introduction,
-			type 					AS type,
-			location 				AS location,
-			start_time 				AS startTime,
-			end_time 				AS endTime,
-			closed_day 				AS closedDay,
-			contact_number 			AS contactNumber,
-			img_url 				AS imgUrl
+		SELECT 
+			bathhouse_info_id 		AS bathhouseInfoId,		<!-- 목욕탕 정보글 일련번호 -->
+			name 					AS name,				<!-- 목욕탕 이름 -->
+			introduction 			AS introduction,		<!-- 목욕탕 소개 -->
+			type 					AS type,				<!-- 목욕탕 타입 -->
+			location 				AS location,			<!-- 위치 -->
+			start_time 				AS startTime,			<!-- 시작 시간 -->
+			end_time 				AS endTime,				<!-- 마치는 시간 -->
+			closed_day 				AS closedDay,			<!-- 휴무일 -->
+			contact_number 			AS contactNumber,		<!-- 연락처 -->
+			img_url 				AS imgUrl				<!-- 이미지 -->
 		FROM
 			ojt_bathhouse_info
 		WHERE
 			bathhouse_info_id = #{bathhouseInfoId}
 	</select>
 	
+	<!-- 목욕탕 아이디(번호)에 해당하는 태그 가져오기 -->
 	<select id="getTagByBAthhouseInfoId" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseTagDTO">
-		SELECT <!-- 목욕탕 아이디(번호)에 해당하는 태그 가져오기 -->
-			b.bathhouse_info_id 	AS bathhouseInfoId,
-			t.tag_id 				AS tagId,
-			t.tag_name 				AS tagName
+		SELECT 
+			b.bathhouse_info_id 	AS bathhouseInfoId,		<!-- 목욕탕 정보글 일련번호 -->
+			t.tag_id 				AS tagId,				<!-- 목욕탕 태그 일련번호 -->
+			t.tag_name 				AS tagName				<!-- 목욕탕 태그 -->
 		FROM ojt_bathhouse_tag t
 		INNER JOIN ojt_info_tag_mapping m ON t.tag_id = m.tag_id
 		INNER JOIN ojt_bathhouse_info b ON b.bathhouse_info_id = m.bathhouse_info_id
@@ -79,10 +83,11 @@
 			b.bathhouse_info_id = #{bathhouseInfoId}
 	</select>
 	
+	<!-- 내가 좋아요한 목욕탕 리스트 얻기 -->
 	<select id="getLikedBathhouse" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">
-		SELECT <!-- 내가 좋아요한 목욕탕 리스트 얻기 -->
-			b.bathhouse_info_id 	AS bathhouseInfoId,
-			b.name 					AS name
+		SELECT 
+			b.bathhouse_info_id 	AS bathhouseInfoId,		<!-- 목욕탕 정보글 일련번호 -->
+			b.name 					AS name					<!-- 목욕탕 이름 -->
 		FROM ojt_bathhouse_info b
 		LEFT JOIN ojt_bathhouse_info_like l ON b.bathhouse_info_id = l.bathhouse_info_id
 		INNER JOIN ojt_member m ON l.member_id = m.member_id
@@ -90,9 +95,10 @@
 			m.member_id = #{memberId}
 	</select>
 	
+	<!-- 랜덤으로 이미지 5개 뽑기 -->
 	<select id="getRandomImages" resultType="String">
-		SELECT <!-- 랜덤으로 이미지 5개 뽑기 -->
-			img_url 	AS imgUrl
+		SELECT
+			img_url 	AS imgUrl 	<!-- 이미지 -->
 		FROM
 			ojt_bathhouse_info
 		WHERE

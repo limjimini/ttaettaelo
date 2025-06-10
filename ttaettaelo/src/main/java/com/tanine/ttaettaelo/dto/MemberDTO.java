@@ -23,9 +23,11 @@ import lombok.ToString;
 @ToString
 public class MemberDTO {
 	
-	private Long memberId; // 회원 번호
+	@NotBlank
+	private Long memberId; // 회원 일련번호
 
 	@NotBlank(message = "필수 입력입니다.")
+	@Size(max = 50)
 	private String loginId; // 로그인 아이디
 	
 	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}", message = "비밀번호는 8~20자, 영문대소문자, 숫자, 특수문자를 사용해주세요.")
@@ -41,9 +43,11 @@ public class MemberDTO {
 	
 	@Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 정확하지 않습니다.")
 	@NotBlank(message = "필수 입력입니다.")
+	@Size(max = 100)
 	private String email; // 이메일 주소
 	
 	@NotNull(message = "3개 중에 선택해주세요.")
+	@Size(max = 2)
 	private String gender; // 성별
 	
 	@Nullable

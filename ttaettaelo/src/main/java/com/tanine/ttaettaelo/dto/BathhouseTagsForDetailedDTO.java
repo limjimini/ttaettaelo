@@ -1,9 +1,6 @@
 package com.tanine.ttaettaelo.dto;
 
-import java.util.List;
-
-import com.tanine.ttaettaelo.enums.BathhouseType;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +13,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class BathhouseTagsForDetailedDTO {
-
-	private long bathhouseInfoId;
-	private long tagId;
-	private String tagName;
+	
+	@NotBlank
+	private long bathhouseInfoId; // 목욕탕 정보글 일련번호
+	
+	@NotBlank
+	private long tagId; // 목욕탕 태그 일련번호
+	
+	private String tagName; // 목욕탕 태그
 }

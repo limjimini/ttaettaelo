@@ -3,8 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.ReviewMapper">
+	<!-- 리뷰 등록 -->
 	<insert id="insertReview" parameterType="com.tanine.ttaettaelo.dto.ReviewDTO">
-        INSERT INTO ojt_review ( <!-- 리뷰 등록 -->
+        INSERT INTO ojt_review ( 
         	bathhouse_info_id, 
         	member_id, 
         	content, 
@@ -18,19 +19,20 @@
         )
     </insert>
     
+    <!-- 리뷰 조회 -->
     <select id="getReviewsByBathhouseInfoId" parameterType="Long" resultType="com.tanine.ttaettaelo.dto.ReviewDTO">
-    	SELECT <!-- 리뷰 조회 -->
-    		r.review_id 			AS reviewId,
-    		b.bathhouse_info_id 	AS bathhouseInfoId,
-    		r.member_id 			AS memberId,
-    		r.content 				AS content,
-    		r.rating 				AS rating,
-    		r.created_at 			AS createdAt,
-    		r.updated_at 			AS updatedAt,
-    		m.name 					AS name,
+    	SELECT 
+    		r.review_id 			AS reviewId,				<!-- 리뷰 일련번호 -->
+    		b.bathhouse_info_id 	AS bathhouseInfoId,			<!-- 목욕탕 정보글 일련번호 -->
+    		r.member_id 			AS memberId,				<!-- 회원 일련번호 -->
+    		r.content 				AS content,					<!-- 내용 -->
+    		r.rating 				AS rating,					<!-- 평점 -->
+    		r.created_at 			AS createdAt,				<!-- 생성일 -->
+    		r.updated_at 			AS updatedAt,				<!-- 수정일 -->
+    		m.name 					AS name,					<!-- 이름 -->
     		( SELECT COUNT(*) 
       			FROM ojt_review_like l 
-      		   WHERE l.review_id = r.review_id) AS likeCount
+      		   WHERE l.review_id = r.review_id) AS likeCount	<!-- 좋아요 수 -->
     	FROM ojt_review r
     	INNER JOIN ojt_member m ON r.member_id = m.member_id
     	LEFT JOIN ojt_bathhouse_info b on r.bathhouse_info_id = b.bathhouse_info_id
@@ -40,25 +42,28 @@
     		r.review_id
     </select>
     
+    <!-- 리뷰 수정 -->
     <update id="updateReview" parameterType="com.tanine.ttaettaelo.dto.ReviewDTO">
-	    UPDATE ojt_review <!-- 리뷰 수정 -->
+	    UPDATE ojt_review 
 	    SET content = #{content},
 	        rating 	= #{rating}
 	    WHERE review_id = #{reviewId}
 	</update>
 	
+	<!-- 리뷰 삭제 -->
 	<delete id="deleteReview" parameterType="Long">
-	    DELETE FROM ojt_review <!-- 리뷰 삭제 -->
+	    DELETE FROM ojt_review 
 	    WHERE review_id = #{reviewId}
 	</delete>
 	
+	<!-- 내가 쓴 댓글 리스트 얻기 -->
 	<select id="getMyReviews" resultType="com.tanine.ttaettaelo.dto.ReviewDTO">
-		SELECT <!-- 내가 쓴 댓글 리스트 얻기 -->
-			r.review_id 			AS reviewId,
-			r.rating 				AS rating,
-			r.content 				AS content,
-			b.bathhouse_info_id 	AS bathhouseInfoId,
-			b.name AS name
+		SELECT 
+			r.review_id 			AS reviewId,			<!-- 리뷰 일련번호 -->
+			r.rating 				AS rating,				<!-- 평점 -->
+			r.content 				AS content,				<!-- 내용 -->
+			b.bathhouse_info_id 	AS bathhouseInfoId,		<!-- 목욕탕 정보글 일련번호 -->
+			b.name 					AS name					<!-- 이름 -->
 		FROM ojt_review r
 		INNER JOIN ojt_member m ON r.member_id = m.member_id
 		LEFT JOIN ojt_bathhouse_info b ON r.bathhouse_info_id = b.bathhouse_info_id

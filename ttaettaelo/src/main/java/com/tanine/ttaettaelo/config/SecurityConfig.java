@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Spring Security 설정
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -19,44 +22,24 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-		
 		httpSecurity
-		.cors(Customizer.withDefaults())
-		.csrf(AbstractHttpConfigurer::disable)
+		.cors(Customizer.withDefaults()) // CORS 설정 활성화
+		.csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
 		.authorizeHttpRequests((authorize) -> authorize
-//			.requestMatchers("/support/**").authenticated() // /support 인증 필요
 //			.requestMatchers("/admin/**").hasRole("ADMIN") // 관리자만 접근 가능
 			.anyRequest().permitAll()); // 그 외 페이지는 누구나 접근 가능
-		return httpSecurity.build();
-		
-//		http
-////			.csrf(csrf ->csrf.disable()) // CSRF 보호 비활성화
-//			.authorizeHttpRequests(requests ->requests
-//				.requestMatchers("/login", "/signup", "/guide/**", "/bathhouse/**").permitAll() // 로그인, 회원가입, 목욕탕 가이드, 목욕탕 정보 페이지는 인증 없이 접근 가능
-////				.requestMatchers("/admin/**").hasRole("ADMIN") // /admin/* 경로는 관리자 권한만 접근 가능
-//				.anyRequest().authenticated()) //나머지 페이지는 인증된 사용자만 접근 가능
-//			.formLogin(login ->login
-//				.loginPage("/login") // 로그인 페이지 설정
-//				.loginProcessingUrl("/login") // 로그인 폼 제출
-//				.defaultSuccessUrl("/", true) // 로그인 성공시 홈 화면으로
-//				.failureUrl("/login") // 로그인 실패시 로그인 화면으로
-//				.permitAll()) // 로그인 페이지는 인증 없이 접근 가능
-//			.logout(logout ->logout
-//				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃 URL 설정
-//				.logoutSuccessUrl("/logout") // 로그아웃 성공시 로그아웃 화면으로
-//				.permitAll()); // 로그아웃 페이지는 인증 없이 접근 가능
-//		return http.build();
-        
+		return httpSecurity.build();        
 	}
 	
-    // 사용자 인증 처리 시 필요한 서비스
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-            .withUser("user").password(passwordEncoder().encode("password")).roles("USER");
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception { // 사용자 인증 처리 시 필요한 서비스
+        auth.inMemoryAuthentication() // 메모리에 사용자 정보 저장
+            .withUser("user") // 사용자명
+            .password(passwordEncoder().encode("password")) // 암호화된 비밀번호
+            .roles("USER"); // 사용자 역할
     }
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() { // 비밀번호 암호화를 위한 Bean 등록
 		return new BCryptPasswordEncoder();
 	}
 }

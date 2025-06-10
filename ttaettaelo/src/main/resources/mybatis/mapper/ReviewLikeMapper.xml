@@ -3,8 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.ReviewLikeMapper">
+	<!-- 리뷰 좋아요 추가 -->
 	<insert id="insertLike">
-		INSERT INTO ojt_review_like ( <!-- 리뷰 좋아요 추가 -->
+		INSERT INTO ojt_review_like ( 
 			review_id,
 			member_id
 		)
@@ -14,14 +15,16 @@
 		)
 	</insert>
 	
+	<!-- 리뷰 좋아요 삭제 -->
 	<delete id="deleteLike">
-		DELETE FROM ojt_review_like <!-- 리뷰 좋아요 삭제 -->
+		DELETE FROM ojt_review_like 
 		WHERE review_id = #{reviewId}
 		AND   member_id = #{memberId}
 	</delete>
 	
+	<!-- 리뷰 좋아요 중복 확인 -->
 	<select id="isLiked" resultType="boolean">
-		SELECT <!-- 리뷰 좋아요 중복 확인 -->
+		SELECT 
 			COUNT(*) > 0
 		FROM
 			ojt_review_like
@@ -31,8 +34,9 @@
 			member_id = #{memberId}
 	</select>
 	
+	<!-- 리뷰 좋아요 총 개수 -->
 	<select id="countLikes" resultType="int">
-		SELECT <!-- 리뷰 좋아요 총 개수 -->
+		SELECT 
 			COUNT(*)
 		FROM
 			ojt_review_like

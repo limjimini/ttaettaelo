@@ -3,8 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.BathhouseInfoLikeMapper">
+	<!-- 목욕탕 좋아요 추가 -->
 	<insert id="insertLike">
-		INSERT INTO ojt_bathhouse_info_like ( <!-- 목욕탕 좋아요 추가 -->
+		INSERT INTO ojt_bathhouse_info_like ( 
 			bathhouse_info_id,
 			member_id	
 		)
@@ -14,14 +15,16 @@
 		)
 	</insert>
 	
+	<!-- 목욕탕 좋아요 삭제 -->
 	<delete id="deleteLike">
-		DELETE FROM ojt_bathhouse_info_like <!-- 목욕탕 좋아요 삭제 -->
+		DELETE FROM ojt_bathhouse_info_like 
 		WHERE bathhouse_info_id = #{bathhouseInfoId}
 		AND   member_id = #{memberId}
 	</delete>
 	
+	<!-- 목욕탕 좋아요 중복 확인 -->
 	<select id="isLiked" resultType="boolean">
-		SELECT <!-- 목욕탕 좋아요 중복 확인 -->
+		SELECT 
 			COUNT(*) > 0
 		FROM
 			ojt_bathhouse_info_like
@@ -31,8 +34,9 @@
 			member_id = #{memberId}
 	</select>
 	
+	<!-- 목욕탕 좋아요 총 개수 -->
 	<select id="countLikes" resultType="int">
-		SELECT <!-- 목욕탕 좋아요 총 개수 -->
+		SELECT 
 			COUNT(*)
 		FROM
 			ojt_bathhouse_info_like

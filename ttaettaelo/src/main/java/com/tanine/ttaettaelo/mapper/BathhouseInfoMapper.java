@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 import com.tanine.ttaettaelo.dto.BathhouseInfoDTO;
 import com.tanine.ttaettaelo.dto.BathhouseTagsForDetailedDTO;
 
+/**
+ * 목욕탕 정보글 관련 데이터베이스 연동을 처리하는 마이바티스 매퍼 인터페이스
+ */
 @Mapper
 public interface BathhouseInfoMapper {
 
@@ -16,7 +19,7 @@ public interface BathhouseInfoMapper {
 	
 	List<BathhouseTagsForDetailedDTO> getTagByBAthhouseInfoId(Long bathhouseInfoId); // 목욕탕 정보상세글 태그 가져오기
 	
-	List<BathhouseInfoDTO> getLikedBathhouse(Long memberId);
+	List<BathhouseInfoDTO> getLikedBathhouse(Long memberId); // 내가 좋아요한 목욕탕 리스트 가져오기
 	
-	List<String> getRandomImages();
+	List<String> getRandomImages(); // 랜덤으로 이미지 5개 가져오기
 }

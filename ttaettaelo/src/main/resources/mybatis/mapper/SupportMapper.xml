@@ -4,43 +4,46 @@
 
 <mapper namespace="com.tanine.ttaettaelo.mapper.SupportMapper">	
 	<select id="getAllSupportWithAnswer" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
-		SELECT <!-- 문의글과 답변 같이 조회 -->
-			s.support_id 	AS supportId,
-			s.title 		AS title,
-			s.content 		AS content,
-			s.status 		AS status,
-			s.created_at 	AS createdAt,
-			m.member_id 	AS memberId,
-			m.name 			AS name,
-			a.answer_id 	AS answerId,
-			a.support_id 	AS answerSupportId,
-			a.content 		AS answerContent,
-			a.created_at	AS answerCreatedAt
+		<!-- 문의글과 답변 같이 조회 -->
+		SELECT 
+			s.support_id 	AS supportId,			<!-- 문의글 일련번호 -->
+			s.title 		AS title,				<!-- 문의 제목 -->
+			s.content 		AS content,				<!-- 문의 내용 -->
+			s.status 		AS status,				<!-- 문의 상태 -->
+			s.created_at 	AS createdAt,			<!-- 문의글 생성일 -->
+			m.member_id 	AS memberId,			<!-- 회원 일련번호 -->
+			m.name 			AS name,				<!-- 이름 -->
+			a.answer_id 	AS answerId,			<!-- 문의 답변 일련번호 -->
+			a.support_id 	AS answerSupportId,		<!-- 문의글 일련번호 -->
+			a.content 		AS answerContent,		<!-- 문의 답변 내용 -->
+			a.created_at	AS answerCreatedAt		<!-- 문의 답변 생성일 -->
 		FROM ojt_support s
 		LEFT JOIN ojt_support_answer a ON s.support_id = a.support_id
 		INNER JOIN ojt_member m ON s.member_id = m.member_id
 		ORDER BY s.support_id DESC
 	</select>
 
+	<!-- 문의아이디를 통해 문의글, 문의답변 조회 -->
 	<select id="getSupportById" resultType="com.tanine.ttaettaelo.dto.SupportDTO">
-		SELECT <!-- 문의아이디를 통해 문의글, 문의답변 조회 -->
-			s.support_id 	AS supportId,
-			s.title 		AS title,
-			s.content 		AS content,
-			s.status 		AS status,
-			s.created_at 	AS createdAt,
-			m.name 			AS name,
-			a.answer_id 	AS answerId,
-			a.content 		AS answerContent,
-			a.created_at 	AS answerCreatedAt
+		SELECT 
+			s.support_id 	AS supportId,		<!-- 문의글 일련번호 -->
+			s.title 		AS title,			<!-- 문의 제목 -->
+			s.content 		AS content,			<!-- 문의 내용 -->
+			s.status 		AS status,			<!-- 문의 상태 -->
+			s.created_at 	AS createdAt,		<!-- 문의글 생성일 -->
+			m.name 			AS name,			<!-- 이름 -->
+			a.answer_id 	AS answerId,		<!-- 문의 답변 일련번호 -->
+			a.content 		AS answerContent,	<!-- 문의 답변 내용 -->
+			a.created_at 	AS answerCreatedAt	<!-- 문의 답변 생성일 -->
 		FROM ojt_support s
 		INNER JOIN ojt_member m ON s.member_id = m.member_id
 		LEFT JOIN ojt_support_answer a ON s.support_id = a.support_id
 		WHERE s.support_id = #{supportId}
 	</select>
 		
+	<!-- 문의하기 등록-->
 	<insert id="insertSupport" parameterType="com.tanine.ttaettaelo.dto.SupportDTO">
-        INSERT INTO ojt_support ( <!-- 문의하기 등록-->
+        INSERT INTO ojt_support ( 
         	member_id, 
         	title, 
         	content
@@ -52,8 +55,9 @@
         )
     </insert>
     
+    <!-- 답변 상태 업데이트 -->
     <update id="updateStatus"> 
-        UPDATE ojt_support <!-- 답변 상태 업데이트 -->
+        UPDATE ojt_support 
         SET status = #{status}
         WHERE support_id = #{supportId}
     </update>
