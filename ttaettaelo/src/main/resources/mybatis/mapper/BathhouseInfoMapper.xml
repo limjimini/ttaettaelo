@@ -40,6 +40,19 @@
 		LEFT JOIN ojt_review r ON r.bathhouse_info_id = b.bathhouse_info_id
 		LEFT JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
 		LEFT JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
+		WHERE 1=1
+		<if test="name != null and name != ''">
+		AND name LIKE CONCAT('%', #{name}, '%')
+		</if>
+		<if test="location != null and location != ''">
+		AND location LIKE CONCAT('%', #{location}, '%')
+		</if>
+		<if test="type != null and type != ''">
+		AND type LIKE CONCAT('%', #{type}, '%')
+		</if>
+		<if test="tagName != null and tagName != ''">
+		AND tag_name LIKE CONCAT('%', #{tagName}, '%')
+		</if>
 		GROUP BY
 			b.bathhouse_info_id,
 			b.name,

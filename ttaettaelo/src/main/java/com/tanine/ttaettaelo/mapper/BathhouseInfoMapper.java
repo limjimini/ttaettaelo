@@ -3,6 +3,7 @@ package com.tanine.ttaettaelo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.tanine.ttaettaelo.dto.BathhouseInfoDTO;
 import com.tanine.ttaettaelo.dto.BathhouseTagsForDetailedDTO;
@@ -13,7 +14,7 @@ import com.tanine.ttaettaelo.dto.BathhouseTagsForDetailedDTO;
 @Mapper
 public interface BathhouseInfoMapper {
 
-	List<BathhouseInfoDTO> getAllBathhouseInfo(); // 목욕탕 정보글 조회
+	List<BathhouseInfoDTO> getAllBathhouseInfo(@Param("name") String name, @Param("location") String location, @Param("type") String type, @Param("tagName") String tagName); // 목욕탕 정보글 조회
 	
 	BathhouseInfoDTO getInfoDetailed(Long bathhouseInfoId); // 목욕탕 정보상세글 조회
 	

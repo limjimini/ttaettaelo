@@ -24,10 +24,14 @@ public class BathhouseInfoService {
 	
 	/**
 	 * 목욕탕 정보글 조회
+	 * @param name 검색할 목욕탕 이름
+	 * @param location 검색할 목욕탕 위치
+	 * @param type 검색할 목욕탕 타입
+	 * @param tagName 검색할 목욕탕 태그
 	 * @return 목욕탕 정보글 리스트
 	 */
-	public List<BathhouseInfoDTO> getAllBathhouseInfo() {
-		return bathhouseInfoMapper.getAllBathhouseInfo();
+	public List<BathhouseInfoDTO> getAllBathhouseInfo(String name, String location, String type, String tagName) {
+		return bathhouseInfoMapper.getAllBathhouseInfo(name, location, type, tagName);
 	}
 	
 	/**
