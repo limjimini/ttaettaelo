@@ -42,16 +42,16 @@
 		LEFT JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
 		WHERE 1=1
 		<if test="name != null and name != ''">
-		AND name LIKE CONCAT('%', #{name}, '%')
+			AND name LIKE CONCAT('%', #{name}, '%')
 		</if>
 		<if test="location != null and location != ''">
-		AND location LIKE CONCAT('%', #{location}, '%')
+			AND location LIKE CONCAT('%', #{location}, '%')
 		</if>
 		<if test="type != null and type != ''">
-		AND type LIKE CONCAT('%', #{type}, '%')
+			AND type LIKE CONCAT('%', #{type}, '%')
 		</if>
 		<if test="tagName != null and tagName != ''">
-		AND tag_name LIKE CONCAT('%', #{tagName}, '%')
+			AND tag_name LIKE CONCAT('%', #{tagName}, '%')
 		</if>
 		GROUP BY
 			b.bathhouse_info_id,
@@ -63,6 +63,28 @@
 		ORDER BY
 			b.bathhouse_info_id DESC
 	</select>
+	
+	<!-- 전체 목욕탕 정보글 개수 조회 -->
+<!--	<select id="getTotalBathhouseCount" resultType="int">
+		SELECT COUNT(*)
+		FROM ojt_bathhouse_info b
+		LEFT JOIN ojt_review r ON r.bathhouse_info_id = b.bathhouse_info_id
+		LEFT JOIN ojt_info_tag_mapping m ON b.bathhouse_info_id = m.bathhouse_info_id
+		LEFT JOIN ojt_bathhouse_tag t ON m.tag_id = t.tag_id
+		WHERE 1=1
+		<if test="name != null and name != ''">
+			AND name LIKE CONCAT('%', #{name}, '%')
+		</if>
+		<if test="location != null and location != ''">
+			AND location LIKE CONCAT('%', #{location}, '%')
+		</if>
+		<if test="type != null and type != ''">
+			AND type LIKE CONCAT('%', #{type}, '%')
+		</if>
+		<if test="tagName != null and tagName != ''">
+			AND tag_name LIKE CONCAT('%', #{tagName}, '%')
+		</if>
+	</select>-->
 	
 	<!-- 목욕탕 정보 상세글 조회 -->
 	<select id="getInfoDetailed" parameterType="long" resultType="com.tanine.ttaettaelo.dto.BathhouseInfoDTO">

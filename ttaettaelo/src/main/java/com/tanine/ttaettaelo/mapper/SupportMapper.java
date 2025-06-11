@@ -14,7 +14,9 @@ import com.tanine.ttaettaelo.dto.SupportDTO;
 @Mapper
 public interface SupportMapper {
 
-	List<SupportDTO> getAllSupportWithAnswer(); // 문의글과 문의 답변 조회
+	List<SupportDTO> getAllSupportWithAnswer(@Param("pageSize") int pageSize, @Param("offset") int offset); // 문의글과 문의 답변 조회
+	
+	int getTotalSupportCount(); // 총 문의글과 문의 답변 개수 조회
 	
 	SupportDTO getSupportById(@Param("supportId") Long supportId); // 문의 아이디를 이용하여 문의글, 문의 답변 조회
 	

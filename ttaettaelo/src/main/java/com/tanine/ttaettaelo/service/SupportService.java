@@ -23,10 +23,21 @@ public class SupportService {
 	
 	/**
 	 * 문의글과 문의 답변 같이 조회
+	 * @param pageNumber 조회할 페이지 번호
+	 * @param pageSize 한 페이지에 나타낼 문의글 수
 	 * @return 문의글과 답변
 	 */
-	public List<SupportDTO> getAllSupportWithAnswer() {
-		return supportMapper.getAllSupportWithAnswer();
+	public List<SupportDTO> getAllSupportWithAnswer(int pageNumber, int pageSize) {
+		int offset = (pageNumber - 1) * pageSize; // 조회 시작 위치
+		return supportMapper.getAllSupportWithAnswer(pageSize, offset);
+	}
+	
+	/**
+	 * 총 문의글 개수 조회
+	 * @return 총 문의글 개수
+	 */
+	public int getTotalSupportCount() {
+		return supportMapper.getTotalSupportCount();
 	}
 
 	/**
