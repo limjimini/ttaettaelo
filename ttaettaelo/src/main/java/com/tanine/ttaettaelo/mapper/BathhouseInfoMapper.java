@@ -16,9 +16,7 @@ import com.tanine.ttaettaelo.dto.BathhouseTagsForDetailedDTO;
 public interface BathhouseInfoMapper {
 
 	List<BathhouseInfoDTO> getAllBathhouseInfo(@Param("name") String name, @Param("location") String location, @Param("type") String type, @Param("tagName") String tagName); // 목욕탕 정보글 조회
-	
-//	int getTotalBathhouseCount(@Param("name") String name, @Param("location") String location, @Param("type") String type, @Param("tagName") String tagName); // 전체 목욕탕 정보글 개수 조회
-	
+		
 	BathhouseInfoDTO getInfoDetailed(Long bathhouseInfoId); // 목욕탕 정보상세글 조회
 	
 	List<BathhouseTagsForDetailedDTO> getTagByBAthhouseInfoId(Long bathhouseInfoId); // 목욕탕 정보상세글 태그 가져오기

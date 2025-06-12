@@ -37,7 +37,7 @@ public class BathhouseInfoService {
 	public List<BathhouseInfoDTO> getAllBathhouseInfo(String name, String location, String type, String tagName) {
 		return bathhouseInfoMapper.getAllBathhouseInfo(name, location, type, tagName);
 	}
-	
+		
 	/**
 	 * 어떤 한 목욕탕의 상세페이지 조회
 	 * @param bathhouseInfoId 상세페이지를 조회할 목욕탕 번호

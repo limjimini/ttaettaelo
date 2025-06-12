@@ -1,6 +1,8 @@
 package com.tanine.ttaettaelo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +40,7 @@ public class BathhouseInfoController {
 			@RequestParam(name = "location", required = false) String location, 
 			@RequestParam(name = "type", required = false) String type, 
 			@RequestParam(name = "tagName",required = false) String tagName) {
-		return bathhouseInfoService.getAllBathhouseInfo(name, location, type, tagName);
+	    return bathhouseInfoService.getAllBathhouseInfo(name, location, type, tagName);
 	}
 	
 	/**
